@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "name": "Rake",
+    "version": "1.0",
+    "content_scripts": [
+        {
+            "matches": [
+                "https://smorg.netlify.app/"
+            ],
+            "js": [
+                "script.js"
+            ]
+        }
+    ],
+    "permissions": [
+        "tabs",
+        "downloads",
+        "activeTab"
+    ]
+}
