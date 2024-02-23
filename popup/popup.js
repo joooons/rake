@@ -2,9 +2,29 @@ const button = document.getElementById('button')
 const url = document.getElementById('url')
 const message = document.getElementById('message')
 
-const linkedinRe = /linkedin\.com\/jobs\/view/;
-const chromeRe = /chrome/;
-const otherRe = /geeksfor/;
+const selectors = {
+    "sites": [
+        {
+            "re": new RegExp("linkedin\\.com\\/jobs\\/view", "i"),
+            "queries": [
+                {
+                    "selector": ".p5"
+                },
+                {
+                    "selector": "#job-details"
+                }
+            ]
+        },
+        {
+            "re": new RegExp("geeksforgeeks", "i"),
+            "queries": [
+                {
+                    "selector": "nav"
+                }
+            ]
+        }
+    ]
+}
 
 async function getCurrentTab() {
     let queryOptions = { active: true, lastFocusedWindow: true };
@@ -12,7 +32,7 @@ async function getCurrentTab() {
     return tab;
 }
 
-message.textContent = 'chrome extention Rake loaded'
+message.textContent = 'chrome extention RAKE loaded'
 
 button.addEventListener('click', async function () {
     const currentTab = await getCurrentTab();
@@ -20,34 +40,18 @@ button.addEventListener('click', async function () {
     if (currentTab) {
         url.textContent = currentTab.url
 
-        if (chromeRe.test(currentTab.url)) {
-            message.textContent = 'testing on id:' + currentTab.id
-            chrome.scripting.executeScript({
-                target: { tabId: currentTab.id },
-                files: ['./scripts/content.js']
-            }).then(() => {
-                message.textContent = 'script executed'
-            });
-        }
-
-        if (otherRe.test(currentTab.url)) {
-            message.textContent = 'testing on id:' + currentTab.id
-            chrome.scripting.executeScript({
-                target: { tabId: currentTab.id },
-                files: ['./scripts/content.js']
-            }).then(() => {
-                message.textContent = 'script executed'
-            });
-        }
-
-        if (linkedinRe.test(currentTab.url)) {
-            message.textContent = 'running script on id:' + currentTab.id
-            chrome.scripting.executeScript({
-                target: { tabId: currentTab.id },
-                files: ['./scripts/content.js']
-            }).then(() => {
-                message.textContent = 'script executed'
-            });
-        }
+        selectors.sites.forEach((site) => {
+            if (currentTab.url.match(site.re)) {
+                message.textContent = 'testing on id:' + currentTab.id
+                chrome.scripting.executeScript({
+                    target: { tabId: currentTab.id },
+                    files: ['./scripts/content.js']
+                }).then(() => {
+                    message.textContent = 'script executed'
+                });
+            }
+        })
+    } else {
+        message.textContent = 'RAKE not supported on ' + currentTab.url
     }
 });
