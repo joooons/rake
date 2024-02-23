@@ -1,7 +1,7 @@
 const selectors = {
     "sites": [
         {
-            "re": "linkedin\\.com\\/jobs\\/view",
+            "re": new RegExp("linkedin\\.com\\/jobs\\/view", "i"),
             "queries": [
                 {
                     "selector": ".p5"
@@ -12,15 +12,17 @@ const selectors = {
             ]
         },
         {
-            "re": "indeed",
+            "re": new RegExp("geeksforgeeks", "i"),
             "queries": [
                 {
-                    "selector": "#about-job"
+                    "selector": "nav"
                 }
             ]
         }
     ]
 }
+
+// console.log(selectors)
 
 
 
@@ -41,25 +43,35 @@ const saveRaked = (text) => {
 }
 
 
+console.log(selectors.sites[1].re)
 
-
-if (linkedin.test(url)) {
-    console.log('Rake works on', url);
-
-    const summary = document.getElementsByClassName('p5')
-    const about = document.getElementById('job-details')
-
-    let summaryText = (summary) ? summary[0].innerText : "No Summary Data"
-    let aboutText = (about) ? about.innerText : "No About Data"
-
-    const text = summaryText + '\n\n----------------------\n\n' + aboutText
-
-    saveRaked(text)
-} else {
-    console.log('Rake does not work on', url);
+if (url.match(selectors.sites[1].re)) {
+    console.log('it work')
 }
 
+let supportedSiteFound = false
 
+selectors.sites.forEach((site) => {
 
+    if (url.match(site.re)) {
+        console.log('Rake works on', url);
+        supportedSiteFound = true
+
+        let textArray = []
+
+        site.queries.forEach((query) => {
+            let text = document.querySelector(query.selector).innerText
+            textArray.push(text)
+        })
+        let data = textArray.join('\n\n----------------------\n\n')
+
+        saveRaked(data)
+    }
+
+})
+
+if (!supportedSiteFound) {
+    console.log('Rake not supported on', url);
+}
 
 

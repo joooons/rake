@@ -4,6 +4,7 @@ const message = document.getElementById('message')
 
 const linkedinRe = /linkedin\.com\/jobs\/view/;
 const chromeRe = /chrome/;
+const otherRe = /geeksfor/;
 
 async function getCurrentTab() {
     let queryOptions = { active: true, lastFocusedWindow: true };
@@ -20,6 +21,16 @@ button.addEventListener('click', async function () {
         url.textContent = currentTab.url
 
         if (chromeRe.test(currentTab.url)) {
+            message.textContent = 'testing on id:' + currentTab.id
+            chrome.scripting.executeScript({
+                target: { tabId: currentTab.id },
+                files: ['./scripts/content.js']
+            }).then(() => {
+                message.textContent = 'script executed'
+            });
+        }
+
+        if (otherRe.test(currentTab.url)) {
             message.textContent = 'testing on id:' + currentTab.id
             chrome.scripting.executeScript({
                 target: { tabId: currentTab.id },
