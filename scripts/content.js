@@ -1,5 +1,5 @@
 const re = /(notnewspage)/;
-const other = /(google)/;
+const linkedin = /(linkedin)/;
 const url = window.document.URL
 
 if (re.test(url)) {
@@ -9,10 +9,20 @@ if (re.test(url)) {
         para[0].textContent = 'NOPE'
         console.log(para[0].textContent)
     }
-} else if (other.test(url)) {
+} else if (linkedin.test(url)) {
     console.log('Rake works on', url);
 
-    const text = "testing only"
+    const summary = document.getElementsByClassName('p5')
+    const about = document.getElementById('job-details')
+
+    let summaryText = (summary) ? summary[0].innerText : "No Summary Data"
+    let aboutText = (about) ? about.innerText : "No About Data"
+
+    const text = summaryText + '\n\n' + aboutText
+
+    console.log('------ text ------')
+    console.log(text)
+
     const fileName = "raked.txt"
     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
 
