@@ -1,16 +1,20 @@
-let img = 'https://bit.ly/4bHcA0l'
+// let img = 'https://bit.ly/4bHcA0l'
 
-console.log('---------------- ok then ----------------------')
+const re = /(notnewspage)/;
+const url = window.document.URL
 
-const elem = document.getElementsByTagName('h1')
-const para = document.getElementsByClassName('br-article-title')
-
-
-if (para) {
-    para[0].textContent = 'NOPE'
+if (re.test(url)) {
+    console.log('Rake works on', url);
+    const para = document.getElementsByClassName('br-article-title')
+    if (para) {
+        para[0].textContent = 'NOPE'
+        console.log(para[0].textContent)
+    }
+} else {
+    console.log('Rake does not work on', url);
 }
 
-para[0].textContent = 'NOPE'
 
-console.log(para[0].textContent)
+
+
 
