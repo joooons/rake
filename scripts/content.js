@@ -1,6 +1,18 @@
-const linkedin = /(linkedin)/;
+const linkedin = /linkedin\.com\/jobs\/view/;
 
 const url = window.document.URL
+
+const saveRaked = (text) => {
+    console.log('------ downloading text ------')
+    const fileName = "raked.txt"
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 
 if (linkedin.test(url)) {
     console.log('Rake works on', url);
@@ -13,19 +25,7 @@ if (linkedin.test(url)) {
 
     const text = summaryText + '\n\n----------------------\n\n' + aboutText
 
-    console.log('------ text ------')
-    console.log(text)
-
-    const fileName = "raked.txt"
-    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
+    saveRaked(text)
 } else {
     console.log('Rake does not work on', url);
 }
