@@ -18,7 +18,7 @@ if (re.test(url)) {
     let summaryText = (summary) ? summary[0].innerText : "No Summary Data"
     let aboutText = (about) ? about.innerText : "No About Data"
 
-    const text = summaryText + '\n\n' + aboutText
+    const text = summaryText + '\n\n----------------------\n\n' + aboutText
 
     console.log('------ text ------')
     console.log(text)

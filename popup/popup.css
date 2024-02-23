@@ -16,16 +16,17 @@ h1 {
 
 #url {
     margin-top: 1rem;
-    width: 100%;
+    width: 250px;
     border-radius: 5px;
     background-color: rgba(231, 243, 254, 0.5);
     text-align: center;
-
+    text-wrap: balance;
+    overflow: hidden;
 }
 
 #message {
     margin-top: 1rem;
-    width: 100%;
+    width: 250px;
     border-radius: 5px;
     background-color: rgba(231, 243, 254, 0.5);
     text-align: center;
