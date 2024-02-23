@@ -1,15 +1,8 @@
-const re = /(notnewspage)/;
 const linkedin = /(linkedin)/;
+
 const url = window.document.URL
 
-if (re.test(url)) {
-    console.log('Rake works on', url);
-    const para = document.getElementsByClassName('br-article-title')
-    if (para) {
-        para[0].textContent = 'NOPE'
-        console.log(para[0].textContent)
-    }
-} else if (linkedin.test(url)) {
+if (linkedin.test(url)) {
     console.log('Rake works on', url);
 
     const summary = document.getElementsByClassName('p5')
