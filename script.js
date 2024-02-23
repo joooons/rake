@@ -5,9 +5,6 @@ console.log('---------------- ok then ----------------------')
 const elem = document.getElementsByTagName('h1')
 const para = document.getElementsByClassName('br-article-title')
 
-// if (elem) {
-//     elem[0].textContent = 'NOPE'
-// }
 
 if (para) {
     para[0].textContent = 'NOPE'

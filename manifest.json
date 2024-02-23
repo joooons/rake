@@ -2,13 +2,17 @@
     "manifest_version": 3,
     "name": "Rake",
     "version": "1.0",
-    "description": "Just a slightly faster way to grab some text from the page",
+    "description": "Rake some text",
     "author": "monkfoo",
     "action": {
         "default_popup": "popup.html",
         "default_title": "Rake"
     },
     "permissions": [
+        "scripting",
         "activeTab"
-    ]
+    ],
+    "background": {
+        "service_worker": "background.js"
+    }
 }
