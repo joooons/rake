@@ -12,6 +12,17 @@ const selectors = {
             ]
         },
         {
+            "re": new RegExp("linkedin\\.com\\/jobs\\/collections\\/recommended", "i"),
+            "queries": [
+                {
+                    "selector": "[class*='job-details-jobs-unified-top-card']"
+                },
+                {
+                    "selector": "[class*='jobs-description-content']"
+                }
+            ]
+        },
+        {
             "re": new RegExp("geeksforgeeks", "i"),
             "queries": [
                 {

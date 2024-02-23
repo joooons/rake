@@ -1,7 +1,3 @@
-const button = document.getElementById('button')
-const url = document.getElementById('url')
-const message = document.getElementById('message')
-
 const selectors = {
     "sites": [
         {
@@ -12,6 +8,17 @@ const selectors = {
                 },
                 {
                     "selector": "#job-details"
+                }
+            ]
+        },
+        {
+            "re": new RegExp("linkedin\\.com\\/jobs\\/collections\\/recommended", "i"),
+            "queries": [
+                {
+                    "selector": "[class*='job-details-jobs-unified-top-card']"
+                },
+                {
+                    "selector": "[class*='jobs-description-content']"
                 }
             ]
         },
@@ -33,6 +40,10 @@ const selectors = {
         }
     ]
 }
+
+const button = document.getElementById('button')
+const url = document.getElementById('url')
+const message = document.getElementById('message')
 
 async function getCurrentTab() {
     let queryOptions = { active: true, lastFocusedWindow: true };
