@@ -22,12 +22,6 @@ const selectors = {
     ]
 }
 
-// console.log(selectors)
-
-
-
-const linkedin = /linkedin\.com\/jobs\/view/;
-
 const url = window.document.URL
 
 const saveRaked = (text) => {
@@ -42,14 +36,40 @@ const saveRaked = (text) => {
     document.body.removeChild(link);
 }
 
+const addRibbon = () => {
+    console.log('----- adding ribbon -----')
+    const ribbon = document.createElement('div')
 
-console.log(selectors.sites[1].re)
+    ribbon.textContent = ' ribbon anyone?'
 
-if (url.match(selectors.sites[1].re)) {
-    console.log('it work')
+    ribbon.style.position = 'fixed';
+    ribbon.style.top = '0';
+    ribbon.style.left = '0';
+    ribbon.style.width = '100%';
+    ribbon.style.backgroundColor = '#333';
+    ribbon.style.textAlign = 'center';
+    ribbon.style.color = '#fff';
+    ribbon.style.padding = '10px';
+    ribbon.style.zIndex = '9999';
+    ribbon.id = 'ribbon'
+
+    ribbon.addEventListener('click', function () {
+        ribbon.remove();
+    })
+
+    // document.body.appendChild(ribbon)
+    document.body.insertBefore(ribbon, document.body.firstChild)
 }
 
+
+
+
 let supportedSiteFound = false
+
+
+// --------------------------------------------------------
+
+addRibbon()
 
 selectors.sites.forEach((site) => {
 
