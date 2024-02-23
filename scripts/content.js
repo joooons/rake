@@ -22,10 +22,7 @@ const selectors = {
     ]
 }
 
-const url = window.document.URL
-
 const saveRaked = (text) => {
-    console.log('------ downloading text ------')
     const fileName = "raked.txt"
     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
     const link = document.createElement('a');
@@ -36,58 +33,50 @@ const saveRaked = (text) => {
     document.body.removeChild(link);
 }
 
-const addRibbon = () => {
-    console.log('----- adding ribbon -----')
+const addRibbon = (url, ribbonID) => {
     const ribbon = document.createElement('div')
-
-    ribbon.textContent = ' ribbon anyone?'
-
-    ribbon.style.position = 'fixed';
-    ribbon.style.top = '0';
-    ribbon.style.left = '0';
-    ribbon.style.width = '100%';
-    ribbon.style.backgroundColor = '#333';
-    ribbon.style.textAlign = 'center';
-    ribbon.style.color = '#fff';
-    ribbon.style.padding = '10px';
-    ribbon.style.zIndex = '9999';
-    ribbon.id = 'ribbon'
-
-    ribbon.addEventListener('click', function () {
+    const props = {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100%',
+        textAlign: 'center',
+        padding: '20px',
+        zIndex: '9999',
+        backgroundColor: 'aquamarine',
+        color: '#333',
+        fontSize: '16px'
+    }
+    Object.assign(ribbon.style, props)
+    ribbon.addEventListener('click', () => {
         ribbon.remove();
     })
-
-    // document.body.appendChild(ribbon)
+    ribbon.id = ribbonID
+    ribbon.textContent = 'RAKE not supported on ' + url
     document.body.insertBefore(ribbon, document.body.firstChild)
 }
 
-
-
-
+const url = window.document.URL
+const ribbonID = 'rake-ribbon-gibberish-souplantatious'
 let supportedSiteFound = false
-
 
 // --------------------------------------------------------
 
-addRibbon()
-
+addRibbon(url, ribbonID)
 selectors.sites.forEach((site) => {
-
     if (url.match(site.re)) {
         console.log('Rake works on', url);
+        const ribbon = document.getElementById(ribbonID)
+        ribbon.textContent = 'downloading some text from ' + url
         supportedSiteFound = true
-
         let textArray = []
-
         site.queries.forEach((query) => {
             let text = document.querySelector(query.selector).innerText
             textArray.push(text)
         })
         let data = textArray.join('\n\n----------------------\n\n')
-
         saveRaked(data)
     }
-
 })
 
 if (!supportedSiteFound) {
