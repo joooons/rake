@@ -5,7 +5,8 @@
     "content_scripts": [
         {
             "matches": [
-                "https://smorg.netlify.app/"
+                "https://smorg.netlify.app/",
+                "https://smorg.netlify.app/notnewspage/*"
             ],
             "js": [
                 "script.js"
