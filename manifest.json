@@ -5,7 +5,7 @@
     "description": "Rake some text",
     "author": "monkfoo",
     "action": {
-        "default_popup": "popup.html",
+        "default_popup": "popup/popup.html",
         "default_title": "Rake",
         "default_icon": {
             "16": "images/leaf-16.png",
