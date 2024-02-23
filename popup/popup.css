@@ -11,3 +11,17 @@ h1 {
     height: 150px;
     font-size: 30px;
 }
+
+#url {
+    margin-top: 1rem;
+    width: 300px;
+    background-color: rgba(231, 243, 254, 0.5);
+    text-align: center;
+}
+
+#message {
+    margin-top: 1rem;
+    width: 300px;
+    background-color: rgba(231, 243, 254, 0.5);
+    text-align: center;
+}
