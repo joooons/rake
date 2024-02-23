@@ -1,3 +1,29 @@
+const selectors = {
+    "sites": [
+        {
+            "re": "linkedin\\.com\\/jobs\\/view",
+            "queries": [
+                {
+                    "selector": ".p5"
+                },
+                {
+                    "selector": "#job-details"
+                }
+            ]
+        },
+        {
+            "re": "indeed",
+            "queries": [
+                {
+                    "selector": "#about-job"
+                }
+            ]
+        }
+    ]
+}
+
+
+
 const linkedin = /linkedin\.com\/jobs\/view/;
 
 const url = window.document.URL
@@ -13,6 +39,9 @@ const saveRaked = (text) => {
     link.click();
     document.body.removeChild(link);
 }
+
+
+
 
 if (linkedin.test(url)) {
     console.log('Rake works on', url);

@@ -1,0 +1,23 @@
+{
+    "sites": [
+        {
+            "re": "linkedin\\.com\\/jobs\\/view",
+            "queries": [
+                {
+                    "selector": ".p5"
+                },
+                {
+                    "selector": "#job-details"
+                }
+            ]
+        },
+        {
+            "re": "indeed",
+            "queries": [
+                {
+                    "selector": "#about-job"
+                }
+            ]
+        }
+    ]
+}
