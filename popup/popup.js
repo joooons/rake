@@ -22,6 +22,14 @@ const selectors = {
                     "selector": "nav"
                 }
             ]
+        },
+        {
+            "re": new RegExp("notnewspage", "i"),
+            "queries": [
+                {
+                    "selector": ".br-article-title"
+                }
+            ]
         }
     ]
 }
@@ -35,23 +43,47 @@ async function getCurrentTab() {
 message.textContent = 'chrome extention RAKE loaded'
 
 button.addEventListener('click', async function () {
-    const currentTab = await getCurrentTab();
-
-    if (currentTab) {
-        url.textContent = currentTab.url
-
-        selectors.sites.forEach((site) => {
-            if (currentTab.url.match(site.re)) {
-                message.textContent = 'testing on id:' + currentTab.id
-                chrome.scripting.executeScript({
-                    target: { tabId: currentTab.id },
-                    files: ['./scripts/content.js']
-                }).then(() => {
-                    message.textContent = 'script executed'
-                });
+    let currentTab = null
+    try {
+        currentTab = await getCurrentTab();
+        if (currentTab) {
+            url.textContent = currentTab.url
+            let supportedSiteFound = false
+            selectors.sites.forEach((site) => {
+                if (currentTab.url.match(site.re)) {
+                    supportedSiteFound = true
+                    message.textContent = 'testing on id:' + currentTab.id
+                    chrome.scripting.executeScript({
+                        target: { tabId: currentTab.id },
+                        files: ['./scripts/content.js']
+                    }).then(() => {
+                        message.textContent = 'script executed'
+                    });
+                }
+            })
+            if (!supportedSiteFound) {
+                message.textContent = 'URL not supported'
             }
-        })
-    } else {
-        message.textContent = 'RAKE not supported on ' + currentTab.url
+        }
+    } catch (error) {
+        message.textContent = 'Something went wrong'
     }
+
+    // if (currentTab) {
+    //     url.textContent = currentTab.url
+
+    //     selectors.sites.forEach((site) => {
+    //         if (currentTab.url.match(site.re)) {
+    //             message.textContent = 'testing on id:' + currentTab.id
+    //             chrome.scripting.executeScript({
+    //                 target: { tabId: currentTab.id },
+    //                 files: ['./scripts/content.js']
+    //             }).then(() => {
+    //                 message.textContent = 'script executed'
+    //             });
+    //         }
+    //     })
+    // } else {
+    //     message.textContent = 'RAKE not supported on ' + currentTab.url
+    // }
 });

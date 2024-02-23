@@ -18,6 +18,14 @@ const selectors = {
                     "selector": "nav"
                 }
             ]
+        },
+        {
+            "re": new RegExp("notnewspage", "i"),
+            "queries": [
+                {
+                    "selector": ".br-article-title"
+                }
+            ]
         }
     ]
 }
@@ -65,7 +73,6 @@ let supportedSiteFound = false
 addRibbon(url, ribbonID)
 selectors.sites.forEach((site) => {
     if (url.match(site.re)) {
-        console.log('Rake works on', url);
         const ribbon = document.getElementById(ribbonID)
         ribbon.textContent = 'downloading some text from ' + url
         supportedSiteFound = true
@@ -80,7 +87,8 @@ selectors.sites.forEach((site) => {
 })
 
 if (!supportedSiteFound) {
-    console.log('Rake not supported on', url);
+    const ribbon = document.getElementById(ribbonID)
+    ribbon.textContent = 'Rake not supported on ' + url
 }
 
 
