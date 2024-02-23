@@ -2,20 +2,10 @@
     "manifest_version": 3,
     "name": "Rake",
     "version": "1.0",
-    "content_scripts": [
-        {
-            "matches": [
-                "https://smorg.netlify.app/",
-                "https://smorg.netlify.app/notnewspage/*"
-            ],
-            "js": [
-                "script.js"
-            ]
-        }
-    ],
-    "permissions": [
-        "tabs",
-        "downloads",
-        "activeTab"
-    ]
+    "description": "Just a slightly faster way to grab some text from the page",
+    "author": "monkfoo",
+    "action": {
+        "default_popup": "popup.html",
+        "default_title": "Rake"
+    }
 }
