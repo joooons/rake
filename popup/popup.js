@@ -107,6 +107,7 @@ function runScriptOnTab(selectors) {
     const tabURL = window.document.URL
     const ribbonID = 'rake-ribbon-gibberish-souplantatious'
     let supportedSiteFound = false
+    let data = ''
 
     const saveRaked = (text) => {
         const fileName = "raked.txt"
@@ -154,29 +155,31 @@ function runScriptOnTab(selectors) {
 
     selectors.sites.forEach((site) => {
         if (tabURL.match(new RegExp(site.re, "i"))) {
-            const ribbon = document.getElementById(ribbonID)
-            ribbon.textContent = 'Text downloaded in raked.txt'
+
             supportedSiteFound = true
             let textArray = []
+            let space = '\n\n----------------------\n\n'
             site.queries.forEach((query) => {
                 const elems = document.querySelectorAll(query.selector)
                 elems.forEach((elem) => {
-                    if (elem) {
-                        if (elem.innerText) {
-                            textArray.push(elem.innerText)
-                        } else {
-                            textArray.push('innerText not found for this query selector: ' + query.selector)
-                        }
+                    if (elem.innerText) {
+                        textArray.push(elem.innerText)
+                    } else {
+                        textArray.push('innerText not found for this query selector: ' + query.selector)
                     }
                 })
             })
-            let data = textArray.join('\n\n----------------------\n\n')
-            saveRaked(data)
+            data = data + textArray.join(space) + space
         }
     })
 
+    saveRaked(data)
+
+    if (data) {
+        document.getElementById(ribbonID).textContent = 'Text downloaded in raked.txt'
+    }
+
     if (!supportedSiteFound) {
-        const ribbon = document.getElementById(ribbonID)
-        ribbon.textContent = 'RAKE not supported'
+        document.getElementById(ribbonID).textContent = 'RAKE not supported'
     }
 }
