@@ -156,8 +156,9 @@ function runScriptOnTab(selectors) {
         const props = {
             position: 'fixed',
             top: '0',
-            left: '0',
-            width: '100%',
+            left: '25%',
+            width: '50%',
+            borderRadius: '20px',
             textAlign: 'center',
             padding: '20px',
             zIndex: '9999',
@@ -175,8 +176,8 @@ function runScriptOnTab(selectors) {
             ribbon.style.opacity = 0;
             setTimeout(() => {
                 document.body.removeChild(ribbon);
-            }, 2000)
-        }, 10000)
+            }, 1000)
+        }, 7000)
         ribbon.id = ribbonID
         ribbon.textContent = 'RAKE not supported'
         document.body.insertBefore(ribbon, document.body.firstChild)
