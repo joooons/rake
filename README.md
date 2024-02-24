@@ -12,7 +12,7 @@ The only use for RAKE at this time is to capture job description text from Linke
 - Enter query selectors for the elements to extract innerText from. For example: .nav.item
 - Click on the "SAVE TEXT" button. This should save the captured text into the raked.txt file.
 
-![screenshot] (/images/screenshot.png)
+![rake](images/screenshot.png)
 
 # Notes
 
