@@ -102,7 +102,7 @@ function runScriptOnTab(selectors) {
         document.body.removeChild(link);
     }
 
-    const addRibbon = (tabURL, ribbonID) => {
+    const addRibbon = (ribbonID) => {
         const ribbon = document.createElement('div')
         const props = {
             position: 'fixed',
@@ -129,16 +129,16 @@ function runScriptOnTab(selectors) {
             }, 2000)
         }, 10000)
         ribbon.id = ribbonID
-        ribbon.textContent = 'RAKE not supported on ' + tabURL
+        ribbon.textContent = 'RAKE not supported'
         document.body.insertBefore(ribbon, document.body.firstChild)
     }
 
-    addRibbon(tabURL, ribbonID)
+    addRibbon(ribbonID)
 
     selectors.sites.forEach((site) => {
         if (tabURL.match(new RegExp(site.re, "i"))) {
             const ribbon = document.getElementById(ribbonID)
-            ribbon.textContent = 'downloading some text from ' + tabURL
+            ribbon.textContent = 'Text downloaded in raked.txt'
             supportedSiteFound = true
             let textArray = []
             site.queries.forEach((query) => {
@@ -158,6 +158,6 @@ function runScriptOnTab(selectors) {
 
     if (!supportedSiteFound) {
         const ribbon = document.getElementById(ribbonID)
-        ribbon.textContent = 'Rake not supported on ' + tabURL
+        ribbon.textContent = 'RAKE not supported'
     }
 }
