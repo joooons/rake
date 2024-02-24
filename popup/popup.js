@@ -51,8 +51,35 @@ async function getCurrentTab() {
     return tab;
 }
 
+function getCookie(name) {
+    const cookieArray = document.cookie.split('; ');
+    const nameEQ = name + "=";
+    for (let i = 0; i < cookieArray.length; i++) {
+        let c = cookieArray[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) {
+            const cookie = c.substring(nameEQ.length, c.length)
+            console.log('cookie is', cookie)
+            if (cookie) {
+                let arr = cookie.split('<>')
+                document.getElementById('urlregex').value = arr.shift()
+                document.querySelectorAll('.qs').forEach((node) => {
+                    if (arr) {
+                        node.value = arr.shift()
+                    }
+                })
+            }
+            return cookie
+        }
+    }
+    return null;
+}
+
+
 url.textContent = 'url'
 message.textContent = 'chrome extention RAKE loaded'
+
+// getCookie('rakecookie');
 
 button.addEventListener('click', async function () {
     let currentTab = null
@@ -66,10 +93,14 @@ button.addEventListener('click', async function () {
     })
 
     const newSite = { "re": customURL, "queries": qs }
-    console.log(newSite)
 
     if (newSite.re) {
         selectors.sites.push(newSite)
+        // let text = 'rakecookie=' + newSite.re
+        // newSite.queries.forEach((query) => {
+        //     text = text + '<>' + query.selector
+        // })
+        // document.cookie = text
     }
 
     try {
@@ -99,7 +130,7 @@ button.addEventListener('click', async function () {
     }
 });
 
-// ---------------- script to run in current tab -------------------------------
+// ----------- script to run in current tab -------------
 
 function runScriptOnTab(selectors) {
     console.log('RAKE script running...')
