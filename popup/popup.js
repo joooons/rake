@@ -1,4 +1,4 @@
-const selectors = {
+let selectors = {
     "sites": [
         {
             "re": "linkedin\\.com\\/jobs\\/view",
@@ -60,14 +60,17 @@ button.addEventListener('click', async function () {
     const customURL = document.getElementById('urlregex').value
     const qs = []
     document.querySelectorAll('.qs').forEach((node) => {
-        if (node) {
-            qs.push(node.value)
+        if (node.value) {
+            qs.push({ "selector": node.value })
         }
     })
 
-    console.log(customURL)
-    console.log(qs)
+    const newSite = { "re": customURL, "queries": qs }
+    console.log(newSite)
 
+    if (newSite.re) {
+        selectors.sites.push(newSite)
+    }
 
     try {
         currentTab = await getCurrentTab();
