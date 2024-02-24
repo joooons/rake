@@ -12,10 +12,29 @@
             ]
         },
         {
-            "re": "indeed",
+            "re": "linkedin\\.com\\/jobs\\/collections\\/recommended",
             "queries": [
                 {
-                    "selector": "#about-job"
+                    "selector": "[class*='job-details-jobs-unified-top-card']"
+                },
+                {
+                    "selector": "[class*='jobs-description-content']"
+                }
+            ]
+        },
+        {
+            "re": "geeksforgeeks",
+            "queries": [
+                {
+                    "selector": "nav"
+                }
+            ]
+        },
+        {
+            "re": "notnewspage",
+            "queries": [
+                {
+                    "selector": ".br-article-title"
                 }
             ]
         }

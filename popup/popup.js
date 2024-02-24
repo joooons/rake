@@ -77,24 +77,6 @@ button.addEventListener('click', async function () {
             }
         }
     } catch (error) {
-        message.textContent = 'Something went wrong'
+        message.textContent = 'I have not seen this catch condition being triggered yet'
     }
-
-    // if (currentTab) {
-    //     url.textContent = currentTab.url
-
-    //     selectors.sites.forEach((site) => {
-    //         if (currentTab.url.match(site.re)) {
-    //             message.textContent = 'testing on id:' + currentTab.id
-    //             chrome.scripting.executeScript({
-    //                 target: { tabId: currentTab.id },
-    //                 files: ['./scripts/content.js']
-    //             }).then(() => {
-    //                 message.textContent = 'script executed'
-    //             });
-    //         }
-    //     })
-    // } else {
-    //     message.textContent = 'RAKE not supported on ' + currentTab.url
-    // }
 });
