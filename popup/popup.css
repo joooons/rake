@@ -14,20 +14,16 @@ h1 {
     font-size: 30px;
 }
 
-#url {
+.common {
     margin-top: 1rem;
     width: 250px;
     border-radius: 5px;
     background-color: rgba(231, 243, 254, 0.5);
     text-align: center;
-    text-wrap: balance;
+    text-wrap: nowrap;
     overflow: hidden;
 }
 
-#message {
-    margin-top: 1rem;
-    width: 250px;
-    border-radius: 5px;
-    background-color: rgba(231, 243, 254, 0.5);
-    text-align: center;
+input {
+    border: 1px dotted gray;
 }

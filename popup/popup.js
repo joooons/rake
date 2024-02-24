@@ -51,6 +51,7 @@ async function getCurrentTab() {
     return tab;
 }
 
+url.textContent = 'url'
 message.textContent = 'chrome extention RAKE loaded'
 
 button.addEventListener('click', async function () {
