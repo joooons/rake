@@ -64,12 +64,20 @@ const addRibbon = (url, ribbonID) => {
         zIndex: '9999',
         backgroundColor: 'aquamarine',
         color: '#333',
-        fontSize: '16px'
+        fontSize: '16px',
+        opacity: '1',
+        transition: 'opacity 2s'
     }
     Object.assign(ribbon.style, props)
     ribbon.addEventListener('click', () => {
         ribbon.remove();
     })
+    setTimeout(() => {
+        ribbon.style.opacity = 0;
+        setTimeout(() => {
+            document.body.removeChild(ribbon);
+        }, 2000)
+    }, 10000)
     ribbon.id = ribbonID
     ribbon.textContent = 'RAKE not supported on ' + url
     document.body.insertBefore(ribbon, document.body.firstChild)
