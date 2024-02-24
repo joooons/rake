@@ -1,7 +1,7 @@
 const selectors = {
     "sites": [
         {
-            "re": new RegExp("linkedin\\.com\\/jobs\\/view", "i"),
+            "re": "linkedin\\.com\\/jobs\\/view",
             "queries": [
                 {
                     "selector": ".p5"
@@ -12,7 +12,7 @@ const selectors = {
             ]
         },
         {
-            "re": new RegExp("linkedin\\.com\\/jobs\\/collections\\/recommended", "i"),
+            "re": "linkedin\\.com\\/jobs\\/collections\\/recommended",
             "queries": [
                 {
                     "selector": "[class*='job-details-jobs-unified-top-card']"
@@ -23,7 +23,7 @@ const selectors = {
             ]
         },
         {
-            "re": new RegExp("geeksforgeeks", "i"),
+            "re": "geeksforgeeks",
             "queries": [
                 {
                     "selector": "nav"
@@ -31,7 +31,7 @@ const selectors = {
             ]
         },
         {
-            "re": new RegExp("notnewspage", "i"),
+            "re": "notnewspage",
             "queries": [
                 {
                     "selector": ".br-article-title"
@@ -61,12 +61,13 @@ button.addEventListener('click', async function () {
             url.textContent = currentTab.url
             let supportedSiteFound = false
             selectors.sites.forEach((site) => {
-                if (currentTab.url.match(site.re)) {
+                if (currentTab.url.match(new RegExp(site.re, "i"))) {
                     supportedSiteFound = true
                     message.textContent = 'testing on id:' + currentTab.id
                     chrome.scripting.executeScript({
                         target: { tabId: currentTab.id },
-                        files: ['./scripts/content.js']
+                        func: runScriptOnTab,
+                        args: [selectors]
                     }).then(() => {
                         message.textContent = 'script executed'
                     });
@@ -77,6 +78,86 @@ button.addEventListener('click', async function () {
             }
         }
     } catch (error) {
-        message.textContent = 'I have not seen this catch condition being triggered yet'
+        message.textContent = 'What triggers this?'
     }
 });
+
+// ---------------- script to run in current tab -------------------------------
+
+function runScriptOnTab(selectors) {
+    console.log('RAKE script running...')
+
+    const tabURL = window.document.URL
+    const ribbonID = 'rake-ribbon-gibberish-souplantatious'
+    let supportedSiteFound = false
+
+    const saveRaked = (text) => {
+        const fileName = "raked.txt"
+        const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    const addRibbon = (tabURL, ribbonID) => {
+        const ribbon = document.createElement('div')
+        const props = {
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            textAlign: 'center',
+            padding: '20px',
+            zIndex: '9999',
+            backgroundColor: 'aquamarine',
+            color: '#333',
+            fontSize: '16px',
+            opacity: '1',
+            transition: 'opacity 2s'
+        }
+        Object.assign(ribbon.style, props)
+        ribbon.addEventListener('click', () => {
+            ribbon.remove();
+        })
+        setTimeout(() => {
+            ribbon.style.opacity = 0;
+            setTimeout(() => {
+                document.body.removeChild(ribbon);
+            }, 2000)
+        }, 10000)
+        ribbon.id = ribbonID
+        ribbon.textContent = 'RAKE not supported on ' + tabURL
+        document.body.insertBefore(ribbon, document.body.firstChild)
+    }
+
+    addRibbon(tabURL, ribbonID)
+
+    selectors.sites.forEach((site) => {
+        if (tabURL.match(new RegExp(site.re, "i"))) {
+            const ribbon = document.getElementById(ribbonID)
+            ribbon.textContent = 'downloading some text from ' + tabURL
+            supportedSiteFound = true
+            let textArray = []
+            site.queries.forEach((query) => {
+                const elem = document.querySelector(query.selector)
+                if (elem) {
+                    if (elem.innerText) {
+                        textArray.push(elem.innerText)
+                    } else {
+                        textArray.push('innerText not found for this query selector: ' + query.selector)
+                    }
+                }
+            })
+            let data = textArray.join('\n\n----------------------\n\n')
+            saveRaked(data)
+        }
+    })
+
+    if (!supportedSiteFound) {
+        const ribbon = document.getElementById(ribbonID)
+        ribbon.textContent = 'Rake not supported on ' + tabURL
+    }
+}
