@@ -8,6 +8,8 @@ The only use for RAKE at this time is to capture job description text from Linke
 
 - Navigate to the url you wish to capture textContent from and keep that tab as the currently active tab.
 - Click on the Rake chrome extension icon. This will open a popup.
+- Enter url regex into the urlregex field.
+- Enter query selectors for the elements to extract innerText from. For example: .nav.item
 - Click on the "SAVE TEXT" button. This should save the captured text into the raked.txt file.
 
 # Notes
