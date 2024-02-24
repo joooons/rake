@@ -14,10 +14,10 @@ The only use for RAKE at this time is to capture job description text from Linke
 
 - This extension is not published yet.
 - To run this extension without publishing, take the following steps:
-- - Navigate to chrome://extensions/
-- - Turn on Developer mode
-- - Click on Load unpacked
-- - Select 'rake', the location of this project
+  - Navigate to chrome://extensions/
+  - Turn on Developer mode
+  - Click on Load unpacked
+  - Select 'rake', the location of this project
 
 ## License
 
