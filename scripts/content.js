@@ -52,7 +52,7 @@ const saveRaked = (text) => {
     document.body.removeChild(link);
 }
 
-const addRibbon = (url, ribbonID) => {
+const addRibbon = (tabURL, ribbonID) => {
     const ribbon = document.createElement('div')
     const props = {
         position: 'fixed',
@@ -79,21 +79,21 @@ const addRibbon = (url, ribbonID) => {
         }, 2000)
     }, 10000)
     ribbon.id = ribbonID
-    ribbon.textContent = 'RAKE not supported on ' + url
+    ribbon.textContent = 'RAKE not supported on ' + tabURL
     document.body.insertBefore(ribbon, document.body.firstChild)
 }
 
-const url = window.document.URL
+const tabURL = window.document.URL
 const ribbonID = 'rake-ribbon-gibberish-souplantatious'
 let supportedSiteFound = false
 
 // --------------------------------------------------------
 
-addRibbon(url, ribbonID)
+addRibbon(tabURL, ribbonID)
 selectors.sites.forEach((site) => {
-    if (url.match(site.re)) {
+    if (tabURL.match(site.re)) {
         const ribbon = document.getElementById(ribbonID)
-        ribbon.textContent = 'downloading some text from ' + url
+        ribbon.textContent = 'downloading some text from ' + tabURL
         supportedSiteFound = true
         let textArray = []
         site.queries.forEach((query) => {
@@ -107,7 +107,7 @@ selectors.sites.forEach((site) => {
 
 if (!supportedSiteFound) {
     const ribbon = document.getElementById(ribbonID)
-    ribbon.textContent = 'Rake not supported on ' + url
+    ribbon.textContent = 'Rake not supported on ' + tabURL
 }
 
 
