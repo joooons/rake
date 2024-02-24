@@ -56,6 +56,19 @@ message.textContent = 'chrome extention RAKE loaded'
 
 button.addEventListener('click', async function () {
     let currentTab = null
+
+    const customURL = document.getElementById('urlregex').value
+    const qs = []
+    document.querySelectorAll('.qs').forEach((node) => {
+        if (node) {
+            qs.push(node.value)
+        }
+    })
+
+    console.log(customURL)
+    console.log(qs)
+
+
     try {
         currentTab = await getCurrentTab();
         if (currentTab) {
