@@ -159,14 +159,16 @@ function runScriptOnTab(selectors) {
             supportedSiteFound = true
             let textArray = []
             site.queries.forEach((query) => {
-                const elem = document.querySelector(query.selector)
-                if (elem) {
-                    if (elem.innerText) {
-                        textArray.push(elem.innerText)
-                    } else {
-                        textArray.push('innerText not found for this query selector: ' + query.selector)
+                const elems = document.querySelectorAll(query.selector)
+                elems.forEach((elem) => {
+                    if (elem) {
+                        if (elem.innerText) {
+                            textArray.push(elem.innerText)
+                        } else {
+                            textArray.push('innerText not found for this query selector: ' + query.selector)
+                        }
                     }
-                }
+                })
             })
             let data = textArray.join('\n\n----------------------\n\n')
             saveRaked(data)
