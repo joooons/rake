@@ -37,6 +37,20 @@ let selectors = {
                     "selector": ".br-article-title"
                 }
             ]
+        },
+        {
+            "re": "indeed\\.com\\/viewjob",
+            "queries": [
+                {
+                    "selector": ".jobsearch-InfoHeaderContainer",
+                },
+                {
+                    "selector": "#jobDetailsSection",
+                },
+                {
+                    "selector": "#jobDescriptionText",
+                }
+            ]
         }
     ]
 }
