@@ -108,6 +108,7 @@ function makeDuplicable(elem) {
             makeDuplicable(elem)
             document.body.insertBefore(elem, bookend)
             this.removeEventListener('keydown', duplicate)
+            elem.focus()
         }
     }
     elem.addEventListener('keydown', duplicate)
