@@ -296,7 +296,7 @@ function runOpenTabScript(selectors) {
     })
 
     if (data) {
-        const top = '<!DOCTYPE html><html><head>'
+        const top = '<!DOCTYPE html><html><head><meta charset="UTF-8">'
         const title = '<title>RAKED PAGE</title></head><body>'
         const bottom = '</body></html>'
         const blob = new Blob([top + title + data + bottom], { type: 'text/html' })
