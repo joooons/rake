@@ -34,7 +34,10 @@ let selectors = {
             "re": "notnewspage",
             "queries": [
                 {
-                    "selector": ".br-article-title"
+                    "selector": ".br-article"
+                },
+                {
+                    "selector": ".br-footer"
                 }
             ]
         },
@@ -264,40 +267,34 @@ function runOpenTabScript(selectors) {
         }, 7000)
 
         ribbon.id = ribbonID
-        ribbon.textContent = 'RAKE not supported'
-
+        ribbon.textContent = 'RAKE attempting to open new tab'
         document.body.insertBefore(ribbon, document.body.firstChild)
     }
 
     addRibbon(ribbonID)
 
-
     selectors.sites.forEach((site) => {
         if (tabURL.match(new RegExp(site.re, "i"))) {
-
             supportedSiteFound = true
             let textArray = []
-            let space = '\n\n----------------------\n\n'
             site.queries.forEach((query) => {
                 const elems = document.querySelectorAll(query.selector)
                 elems.forEach((elem) => {
-                    if (elem.innerText) {
-                        textArray.push(elem.innerText)
-                    } else {
-                        textArray.push('innerText not found for this query selector: ' + query.selector)
+                    if (elem.outerHTML) {
+                        textArray.push(elem.outerHTML)
                     }
                 })
             })
-            data = data + textArray.join(space) + space
+            data = data + textArray.join()
         }
     })
 
     if (data) {
-        document.getElementById(ribbonID).textContent = 'Text downloaded in raked.txt'
-
-        let blob = new Blob([data], { type: 'text/html' })
-        let url = URL.createObjectURL(blob)
-        window.open(url, '_blank')
+        const top = '<!DOCTYPE html><html><head>'
+        const title = '<title>RAKED PAGE</title></head><body>'
+        const bottom = '</body></html>'
+        const blob = new Blob([top + title + data + bottom], { type: 'text/html' })
+        window.open(URL.createObjectURL(blob), '_blank')
     }
 
     if (!supportedSiteFound) {
