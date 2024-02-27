@@ -98,27 +98,19 @@ message.textContent = 'chrome extention RAKE loaded'
 
 
 makeDuplicable(qs[0])
-// qs[0].addEventListener('keydown', function (event) {
-//     if (event.key === 'Enter') {
-
-//         let elem = document.createElement('input')
-//         elem.className = 'qs common'
-//         elem.placeholder = 'custom selector'
-//         url.after(elem)
-//     }
-// })
 
 function makeDuplicable(elem) {
-    elem.addEventListener('keydown', function (event) {
+    function duplicate(event) {
         if (event.key === 'Enter') {
             let elem = document.createElement('input')
             elem.className = 'qs common'
             elem.placeholder = 'custom selector'
             makeDuplicable(elem)
             document.body.insertBefore(elem, bookend)
+            this.removeEventListener('keydown', duplicate)
         }
-    })
-
+    }
+    elem.addEventListener('keydown', duplicate)
 }
 
 
