@@ -27,6 +27,17 @@ input {
     text-align: center;
     text-wrap: nowrap;
     overflow: hidden;
+    user-select: none;
+}
+
+.common-input {
+    margin-top: 0.5rem;
+    width: 244px;
+    border-radius: 5px;
+    background-color: rgba(231, 243, 254, 0.9);
+    text-align: center;
+    text-wrap: nowrap;
+    overflow: hidden;
 }
 
 .cookie-controls {
