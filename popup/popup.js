@@ -61,6 +61,7 @@ const message = document.getElementById('message')
 const qs = document.getElementsByClassName('qs')
 const bookend = document.getElementById('bookend')
 
+// FUNCTIONS --------------------------------
 
 async function getCurrentTab() {
     let queryOptions = { active: true, lastFocusedWindow: true };
@@ -92,13 +93,6 @@ function getCookie(name) {
     return null;
 }
 
-
-url.textContent = 'url'
-message.textContent = 'chrome extention RAKE loaded'
-
-
-makeDuplicable(qs[0])
-
 function makeDuplicable(elem) {
     function duplicate(event) {
         if (event.key === 'Enter') {
@@ -117,7 +111,7 @@ function makeDuplicable(elem) {
     elem.addEventListener('keydown', duplicate)
 }
 
-
+// EVENT LISTENERS ----------------------------------
 
 button.addEventListener('click', async function () {
     let currentTab = null
@@ -167,6 +161,14 @@ button.addEventListener('click', async function () {
         message.textContent = 'What triggers this?'
     }
 });
+
+
+makeDuplicable(qs[0])
+url.textContent = 'url'
+message.textContent = 'chrome extention RAKE loaded'
+
+
+
 
 // ----------- script to run in current tab -------------
 
