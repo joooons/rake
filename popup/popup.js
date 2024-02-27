@@ -56,6 +56,7 @@ let selectors = {
 }
 
 const button = document.getElementById('button')
+const tab = document.getElementById('tab')
 const url = document.getElementById('url')
 const message = document.getElementById('message')
 const qs = document.getElementsByClassName('qs')
@@ -112,6 +113,59 @@ function makeDuplicable(elem) {
 }
 
 // EVENT LISTENERS ----------------------------------
+
+tab.addEventListener('click', async function () {
+    let currentTab = null
+
+    const customURL = document.getElementById('urlregex').value
+    const qs = []
+    document.querySelectorAll('.qs').forEach((node) => {
+        if (node.value) {
+            qs.push({ "selector": node.value })
+        }
+    })
+
+    const newSite = { "re": customURL, "queries": qs }
+
+    if (newSite.re) {
+        selectors.sites.push(newSite)
+        // let text = 'rakecookie=' + newSite.re
+        // newSite.queries.forEach((query) => {
+        //     text = text + '<>' + query.selector
+        // })
+        // document.cookie = text
+    }
+
+    try {
+        currentTab = await getCurrentTab();
+        if (currentTab) {
+            url.textContent = currentTab.url
+            let supportedSiteFound = false
+            selectors.sites.forEach((site) => {
+                if (currentTab.url.match(new RegExp(site.re, "i"))) {
+                    supportedSiteFound = true
+                    message.textContent = 'testing on id:' + currentTab.id
+                    chrome.scripting.executeScript({
+                        target: { tabId: currentTab.id },
+                        func: runOpenTabScript,
+                        args: [selectors]
+                    }).then(() => {
+                        message.textContent = 'script executed'
+                    });
+                }
+            })
+            if (!supportedSiteFound) {
+                message.textContent = 'URL not supported'
+            }
+        }
+    } catch (error) {
+        message.textContent = 'What triggers this?'
+    }
+
+
+})
+
+
 
 button.addEventListener('click', async function () {
     let currentTab = null
@@ -172,6 +226,86 @@ message.textContent = 'chrome extention RAKE loaded'
 
 // ----------- script to run in current tab -------------
 
+function runOpenTabScript(selectors) {
+    console.log('RAKE script running...')
+
+    const tabURL = window.document.URL
+    const ribbonID = 'rake-ribbon-gibberish-souplantatious'
+    let supportedSiteFound = false
+    let data = ''
+
+    const addRibbon = (ribbonID) => {
+        const ribbon = document.createElement('div')
+        const props = {
+            position: 'fixed',
+            top: '0',
+            left: '25%',
+            width: '50%',
+            borderRadius: '20px',
+            textAlign: 'center',
+            padding: '20px',
+            zIndex: '9999',
+            backgroundColor: 'aquamarine',
+            color: '#333',
+            fontSize: '16px',
+            opacity: '1',
+            transition: 'opacity 2s'
+        }
+        Object.assign(ribbon.style, props)
+
+        ribbon.addEventListener('click', () => {
+            ribbon.remove();
+        })
+        setTimeout(() => {
+            ribbon.style.opacity = 0;
+            setTimeout(() => {
+                document.body.removeChild(ribbon);
+            }, 1000)
+        }, 7000)
+
+        ribbon.id = ribbonID
+        ribbon.textContent = 'RAKE not supported'
+
+        document.body.insertBefore(ribbon, document.body.firstChild)
+    }
+
+    addRibbon(ribbonID)
+
+
+    selectors.sites.forEach((site) => {
+        if (tabURL.match(new RegExp(site.re, "i"))) {
+
+            supportedSiteFound = true
+            let textArray = []
+            let space = '\n\n----------------------\n\n'
+            site.queries.forEach((query) => {
+                const elems = document.querySelectorAll(query.selector)
+                elems.forEach((elem) => {
+                    if (elem.innerText) {
+                        textArray.push(elem.innerText)
+                    } else {
+                        textArray.push('innerText not found for this query selector: ' + query.selector)
+                    }
+                })
+            })
+            data = data + textArray.join(space) + space
+        }
+    })
+
+    if (data) {
+        document.getElementById(ribbonID).textContent = 'Text downloaded in raked.txt'
+
+        let blob = new Blob([data], { type: 'text/html' })
+        let url = URL.createObjectURL(blob)
+        window.open(url, '_blank')
+    }
+
+    if (!supportedSiteFound) {
+        document.getElementById(ribbonID).textContent = 'RAKE not supported'
+    }
+}
+
+
 function runScriptOnTab(selectors) {
     console.log('RAKE script running...')
 
@@ -209,6 +343,7 @@ function runScriptOnTab(selectors) {
             transition: 'opacity 2s'
         }
         Object.assign(ribbon.style, props)
+
         ribbon.addEventListener('click', () => {
             ribbon.remove();
         })
@@ -218,8 +353,10 @@ function runScriptOnTab(selectors) {
                 document.body.removeChild(ribbon);
             }, 1000)
         }, 7000)
+
         ribbon.id = ribbonID
         ribbon.textContent = 'RAKE not supported'
+
         document.body.insertBefore(ribbon, document.body.firstChild)
     }
 
@@ -245,9 +382,8 @@ function runScriptOnTab(selectors) {
         }
     })
 
-    saveRaked(data)
-
     if (data) {
+        saveRaked(data)
         document.getElementById(ribbonID).textContent = 'Text downloaded in raked.txt'
     }
 
