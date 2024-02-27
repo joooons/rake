@@ -220,7 +220,9 @@ button.addEventListener('click', async function () {
 });
 
 
-makeDuplicable(qs[0])
+// makeDuplicable(qs[0])
+// I disabled this in favor of just having five query selector input elements always.
+
 url.textContent = 'url'
 message.textContent = 'chrome extention RAKE loaded'
 
