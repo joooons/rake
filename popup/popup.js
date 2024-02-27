@@ -4,7 +4,7 @@ let selectors = {
             "re": "linkedin\\.com\\/jobs\\/view",
             "queries": [
                 {
-                    "selector": ".p5"
+                    "selector": ".relative > .p5"
                 },
                 {
                     "selector": "#job-details"
@@ -60,6 +60,10 @@ let selectors = {
 
 const button = document.getElementById('button')
 const tab = document.getElementById('tab')
+const save = document.getElementById('save')
+const load = document.getElementById('load')
+const clear = document.getElementById('clear')
+const del = document.getElementById('del')
 const url = document.getElementById('url')
 const message = document.getElementById('message')
 const qs = document.getElementsByClassName('qs')
