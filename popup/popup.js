@@ -102,13 +102,16 @@ makeDuplicable(qs[0])
 function makeDuplicable(elem) {
     function duplicate(event) {
         if (event.key === 'Enter') {
-            let elem = document.createElement('input')
-            elem.className = 'qs common'
-            elem.placeholder = 'custom selector'
-            makeDuplicable(elem)
-            document.body.insertBefore(elem, bookend)
-            this.removeEventListener('keydown', duplicate)
-            elem.focus()
+            console.log(document.querySelectorAll('.qs').length)
+            if (document.querySelectorAll('.qs').length < 5) {
+                let elem = document.createElement('input')
+                elem.className = 'qs common'
+                elem.placeholder = 'custom selector'
+                makeDuplicable(elem)
+                document.body.insertBefore(elem, bookend)
+                this.removeEventListener('keydown', duplicate)
+                elem.focus()
+            }
         }
     }
     elem.addEventListener('keydown', duplicate)
