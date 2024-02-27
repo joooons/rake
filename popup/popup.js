@@ -58,6 +58,9 @@ let selectors = {
 const button = document.getElementById('button')
 const url = document.getElementById('url')
 const message = document.getElementById('message')
+const qs = document.getElementsByClassName('qs')
+const bookend = document.getElementById('bookend')
+
 
 async function getCurrentTab() {
     let queryOptions = { active: true, lastFocusedWindow: true };
@@ -93,7 +96,32 @@ function getCookie(name) {
 url.textContent = 'url'
 message.textContent = 'chrome extention RAKE loaded'
 
-// getCookie('rakecookie');
+
+makeDuplicable(qs[0])
+// qs[0].addEventListener('keydown', function (event) {
+//     if (event.key === 'Enter') {
+
+//         let elem = document.createElement('input')
+//         elem.className = 'qs common'
+//         elem.placeholder = 'custom selector'
+//         url.after(elem)
+//     }
+// })
+
+function makeDuplicable(elem) {
+    elem.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            let elem = document.createElement('input')
+            elem.className = 'qs common'
+            elem.placeholder = 'custom selector'
+            makeDuplicable(elem)
+            document.body.insertBefore(elem, bookend)
+        }
+    })
+
+}
+
+
 
 button.addEventListener('click', async function () {
     let currentTab = null
