@@ -75,6 +75,10 @@ label {
     gap: 0.5rem;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 ::placeholder {
     color: #ccc;
 }
