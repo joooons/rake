@@ -64,7 +64,6 @@ const save = document.getElementById('save')
 const load = document.getElementById('load')
 const clear = document.getElementById('clear')
 const del = document.getElementById('del')
-// const url = document.getElementById('url')
 const message = document.getElementById('message')
 const qs = document.getElementsByClassName('qs')
 const bookend = document.getElementById('bookend')
@@ -118,7 +117,6 @@ tab.addEventListener('click', async function () {
     try {
         currentTab = await getCurrentTab();
         if (currentTab) {
-            // url.textContent = currentTab.url
             let supportedSiteFound = false
             selectors.sites.forEach((site) => {
                 if (currentTab.url.match(new RegExp(site.re, "i"))) {
@@ -166,7 +164,6 @@ button.addEventListener('click', async function () {
     try {
         currentTab = await getCurrentTab();
         if (currentTab) {
-            // url.textContent = currentTab.url
             let supportedSiteFound = false
             selectors.sites.forEach((site) => {
                 if (currentTab.url.match(new RegExp(site.re, "i"))) {
@@ -194,7 +191,6 @@ button.addEventListener('click', async function () {
 // makeDuplicable(qs[0])
 // I disabled this in favor of just having five query selector input elements always.
 
-// url.textContent = 'url'
 message.textContent = 'chrome extention RAKE loaded'
 
 
