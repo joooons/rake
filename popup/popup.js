@@ -153,24 +153,29 @@ const inputToJSONstring = () => {
     return qsJSON
 }
 
-const JSONstringToInput = () => {
-    const qsJSON = '{"re":"smorg.netlify.app","queries":[{"selector":".title"},{"selector":".heading"}]}'
-    const site = JSON.parse(qsJSON)
+const JSONstringToInput = (jsonString) => {
+    const site = JSON.parse(jsonString)
     urlregexInputElem.value = site.re
     document.querySelectorAll('.qs').forEach((elem) => { elem.value = '' })
     site.queries.forEach((obj, index) => {
         document.querySelectorAll('.qs')[index].value = obj.selector
     })
-
 }
 
 function saveCookie() {
-    console.log(inputToJSONstring())
+    const name = "name"
+    const cookieString = inputToJSONstring()
+    let date = new Date()
+    date.setFullYear(date.getFullYear() + 1)
+    const cookie = name + '=' + cookieString + '; expires=' + date.toUTCString() + '; path=/'
+    document.cookie = cookie
 }
 
 function loadCookie() {
-    console.log('nothing to see here. move along')
-    JSONstringToInput()
+    const name = "name"
+    const jsonString = document.cookie
+    console.log(jsonString)
+    JSONstringToInput(jsonString.substring(name.length + 1))
 }
 
 
@@ -191,7 +196,6 @@ loadButton.addEventListener('click', function () {
     console.log('loadButton clicked')
     loadCookie()
 })
-
 
 
 saveRawTextButton.addEventListener('click', function () {
