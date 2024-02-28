@@ -142,14 +142,19 @@ async function handleClick(willThisOpenNewTab) {
     }
 }
 
-function saveCookie() {
+const inputToJSONstring = () => {
     const re = urlregexInputElem.value.replaceAll(".", "\\.").replaceAll("/", "\\/")
     const qs = [...document.querySelectorAll('.qs')].filter((elem) => { return elem.value.length > 0 }).map((elem) => { return { "selector": elem.value } })
     const site = {
         "re": re,
         "queries": qs
     }
-    console.log(site)
+    const qsJSON = JSON.stringify(site)
+    return qsJSON
+}
+
+function saveCookie() {
+    console.log(inputToJSONstring())
 }
 
 
