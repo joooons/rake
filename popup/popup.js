@@ -64,6 +64,7 @@ const saveButton = document.getElementById('save')
 const loadButton = document.getElementById('load')
 const clearButton = document.getElementById('clear')
 const deleteButton = document.getElementById('del')
+const urlregexInputElem = document.getElementById('urlregex')
 const messageElem = document.getElementById('message')
 const bookendElem = document.getElementById('bookend')
 
@@ -141,6 +142,21 @@ async function handleClick(willThisOpenNewTab) {
     }
 }
 
+function saveCookie() {
+    const re = urlregexInputElem.value.replaceAll(".", "\\.").replaceAll("/", "\\/")
+    const qs = [...document.querySelectorAll('.qs')].filter((elem) => { return elem.value.length > 0 }).map((elem) => { return { "selector": elem.value } })
+    const site = {
+        "re": re,
+        "queries": qs
+    }
+    console.log(site)
+}
+
+
+
+function loadCookie() {
+    console.log('nothing to see here. move along')
+}
 
 
 //  MMMMMMMM  MM      MM  MMMMMMMM  MM    MM  MMMMMM  
@@ -149,6 +165,17 @@ async function handleClick(willThisOpenNewTab) {
 //  MM        MM      MM  MM        MM    MM    MM    
 //  MM          MM  MM    MM        MM    MM    MM    
 //  MMMMMMMM      MM      MMMMMMMM  MM    MM    MM    
+
+
+saveButton.addEventListener('click', function () {
+    console.log('----- saveButton clicked -----')
+    saveCookie()
+})
+
+loadButton.addEventListener('click', function () {
+    console.log('loadButton clicked')
+    loadCookie()
+})
 
 
 
