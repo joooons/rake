@@ -211,6 +211,11 @@ function deleteCookie() {
 
 
 
+window.addEventListener('load', function () {
+    loadCookie()
+})
+
+
 saveButton.addEventListener('click', function () {
     console.log('----- save button clicked -----')
     saveCookie()
