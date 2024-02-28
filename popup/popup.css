@@ -15,10 +15,21 @@ label {
     width: 50px;
 }
 
+#message {
+    margin-top: 0.5rem;
+    padding: 0.2rem;
+    width: 244px;
+    height: 2rem;
+    border-radius: 5px;
+    background-color: rgba(231, 243, 254, 0.5);
+    overflow: hidden;
+    user-select: none;
+}
+
 .content-control {
     margin-top: 0.5rem;
     width: 250px;
-    height: 80px;
+    height: 60px;
     border-radius: 5px;
     border: 5px solid rgba(231, 243, 254, 0.5);
     font-size: 20px;
