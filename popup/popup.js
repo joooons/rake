@@ -168,11 +168,10 @@ function saveCookie() {
         let date = new Date()
         date.setFullYear(date.getFullYear() + 1)
         document.cookie = name + '=' + cookieString + '; expires=' + date.toUTCString() + '; path=/'
-        messageElem.textContent = 'cookie saved'
+        messageElem.textContent = 'url regex and selectors saved in cookie'
     } else {
-        messageElem.textContent = 'nothing to save'
+        messageElem.textContent = 'nothing to save because url regex is empty'
     }
-
 }
 
 function loadCookie() {
@@ -181,17 +180,16 @@ function loadCookie() {
     console.log(jsonString)
     if (jsonString) {
         JSONstringToInput(jsonString.substring(name.length + 1))
-        messageElem.textContent = 'cookie loaded'
+        messageElem.textContent = 'url regex and selectors loaded from cookie'
     } else {
         messageElem.textContent = 'nothing to load'
     }
-
 }
 
 function clearInputFields() {
     urlregexInputElem.value = ''
     document.querySelectorAll('.qs').forEach((elem) => { elem.value = '' })
-    messageElem.textContent = 'input fields cleared'
+    messageElem.textContent = 'url regex and selector input fields cleared'
 }
 
 function deleteCookie() {
@@ -214,7 +212,6 @@ function deleteCookie() {
 window.addEventListener('load', function () {
     loadCookie()
 })
-
 
 saveButton.addEventListener('click', function () {
     console.log('----- save button clicked -----')
