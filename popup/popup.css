@@ -59,11 +59,6 @@ input {
     gap: 0.5rem;
 }
 
-.cookie-buttons > div {
-    background-color: #f1f1f1;
-    border-radius: 5px;
-}
-
 ::placeholder {
     color: #ccc;
 }
