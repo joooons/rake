@@ -76,7 +76,6 @@ async function getCurrentTab() {
     return tab;
 }
 
-
 function makeDuplicable(elem) {
     function duplicate(event) {
         if (event.key === 'Enter') {
@@ -95,99 +94,64 @@ function makeDuplicable(elem) {
     elem.addEventListener('keydown', duplicate)
 }
 
+async function handleClick(willThisOpenNewTab) {
+    let currentTab = null
+
+    const customURL = document.getElementById('urlregex').value
+    const qs = []
+    document.querySelectorAll('.qs').forEach((node) => {
+        if (node.value) {
+            qs.push({ "selector": node.value })
+        }
+    })
+
+    const newSite = { "re": customURL, "queries": qs }
+
+    if (newSite.re) {
+        selectors.sites.push(newSite)
+    }
+
+    try {
+        currentTab = await getCurrentTab();
+        if (currentTab) {
+            let supportedSiteFound = false
+            selectors.sites.forEach((site) => {
+                if (currentTab.url.match(new RegExp(site.re, "i"))) {
+                    supportedSiteFound = true
+                    message.textContent = 'testing on id:' + currentTab.id
+                    chrome.scripting.executeScript({
+                        target: { tabId: currentTab.id },
+                        func: runScriptOnTab,
+                        args: [selectors, willThisOpenNewTab]
+                    }).then(() => {
+                        message.textContent = 'script executed'
+                    });
+                }
+            })
+            if (!supportedSiteFound) {
+                message.textContent = 'URL not supported'
+            }
+        }
+    } catch (error) {
+        message.textContent = 'What triggers this?'
+    }
+
+}
+
+
+
 // EVENT LISTENERS ----------------------------------
 
-tab.addEventListener('click', async function () {
-    let currentTab = null
 
-    const customURL = document.getElementById('urlregex').value
-    const qs = []
-    document.querySelectorAll('.qs').forEach((node) => {
-        if (node.value) {
-            qs.push({ "selector": node.value })
-        }
-    })
-
-    const newSite = { "re": customURL, "queries": qs }
-
-    if (newSite.re) {
-        selectors.sites.push(newSite)
-    }
-
-    try {
-        currentTab = await getCurrentTab();
-        if (currentTab) {
-            let supportedSiteFound = false
-            let openNewTab = true
-            selectors.sites.forEach((site) => {
-                if (currentTab.url.match(new RegExp(site.re, "i"))) {
-                    supportedSiteFound = true
-                    message.textContent = 'testing on id:' + currentTab.id
-                    chrome.scripting.executeScript({
-                        target: { tabId: currentTab.id },
-                        func: runScriptOnTab,
-                        args: [selectors, openNewTab]
-                    }).then(() => {
-                        message.textContent = 'script executed'
-                    });
-                }
-            })
-            if (!supportedSiteFound) {
-                message.textContent = 'URL not supported'
-            }
-        }
-    } catch (error) {
-        message.textContent = 'What triggers this?'
-    }
-
-
+tab.addEventListener('click', function () {
+    const willThisOpenNewTab = true
+    handleClick(willThisOpenNewTab)
 })
 
-
-
-button.addEventListener('click', async function () {
-    let currentTab = null
-
-    const customURL = document.getElementById('urlregex').value
-    const qs = []
-    document.querySelectorAll('.qs').forEach((node) => {
-        if (node.value) {
-            qs.push({ "selector": node.value })
-        }
-    })
-
-    const newSite = { "re": customURL, "queries": qs }
-
-    if (newSite.re) {
-        selectors.sites.push(newSite)
-    }
-
-    try {
-        currentTab = await getCurrentTab();
-        if (currentTab) {
-            let supportedSiteFound = false
-            let openNewTab = false
-            selectors.sites.forEach((site) => {
-                if (currentTab.url.match(new RegExp(site.re, "i"))) {
-                    supportedSiteFound = true
-                    message.textContent = 'testing on id:' + currentTab.id
-                    chrome.scripting.executeScript({
-                        target: { tabId: currentTab.id },
-                        func: runScriptOnTab,
-                        args: [selectors, openNewTab]
-                    }).then(() => {
-                        message.textContent = 'script executed'
-                    });
-                }
-            })
-            if (!supportedSiteFound) {
-                message.textContent = 'URL not supported'
-            }
-        }
-    } catch (error) {
-        message.textContent = 'What triggers this?'
-    }
-});
+button.addEventListener('click', function () {
+    const willThisOpenNewTab = false
+    handleClick(willThisOpenNewTab)
+})
 
 
 // makeDuplicable(qs[0])
