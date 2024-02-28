@@ -64,7 +64,7 @@ const save = document.getElementById('save')
 const load = document.getElementById('load')
 const clear = document.getElementById('clear')
 const del = document.getElementById('del')
-const url = document.getElementById('url')
+// const url = document.getElementById('url')
 const message = document.getElementById('message')
 const qs = document.getElementsByClassName('qs')
 const bookend = document.getElementById('bookend')
@@ -77,29 +77,6 @@ async function getCurrentTab() {
     return tab;
 }
 
-function getCookie(name) {
-    const cookieArray = document.cookie.split('; ');
-    const nameEQ = name + "=";
-    for (let i = 0; i < cookieArray.length; i++) {
-        let c = cookieArray[i];
-        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-        if (c.indexOf(nameEQ) == 0) {
-            const cookie = c.substring(nameEQ.length, c.length)
-            console.log('cookie is', cookie)
-            if (cookie) {
-                let arr = cookie.split('<>')
-                document.getElementById('urlregex').value = arr.shift()
-                document.querySelectorAll('.qs').forEach((node) => {
-                    if (arr) {
-                        node.value = arr.shift()
-                    }
-                })
-            }
-            return cookie
-        }
-    }
-    return null;
-}
 
 function makeDuplicable(elem) {
     function duplicate(event) {
@@ -136,17 +113,12 @@ tab.addEventListener('click', async function () {
 
     if (newSite.re) {
         selectors.sites.push(newSite)
-        // let text = 'rakecookie=' + newSite.re
-        // newSite.queries.forEach((query) => {
-        //     text = text + '<>' + query.selector
-        // })
-        // document.cookie = text
     }
 
     try {
         currentTab = await getCurrentTab();
         if (currentTab) {
-            url.textContent = currentTab.url
+            // url.textContent = currentTab.url
             let supportedSiteFound = false
             selectors.sites.forEach((site) => {
                 if (currentTab.url.match(new RegExp(site.re, "i"))) {
@@ -189,17 +161,12 @@ button.addEventListener('click', async function () {
 
     if (newSite.re) {
         selectors.sites.push(newSite)
-        // let text = 'rakecookie=' + newSite.re
-        // newSite.queries.forEach((query) => {
-        //     text = text + '<>' + query.selector
-        // })
-        // document.cookie = text
     }
 
     try {
         currentTab = await getCurrentTab();
         if (currentTab) {
-            url.textContent = currentTab.url
+            // url.textContent = currentTab.url
             let supportedSiteFound = false
             selectors.sites.forEach((site) => {
                 if (currentTab.url.match(new RegExp(site.re, "i"))) {
@@ -227,7 +194,7 @@ button.addEventListener('click', async function () {
 // makeDuplicable(qs[0])
 // I disabled this in favor of just having five query selector input elements always.
 
-url.textContent = 'url'
+// url.textContent = 'url'
 message.textContent = 'chrome extention RAKE loaded'
 
 
