@@ -178,6 +178,11 @@ function loadCookie() {
     JSONstringToInput(jsonString.substring(name.length + 1))
 }
 
+function clearInputFields() {
+    urlregexInputElem.value = ''
+    document.querySelectorAll('.qs').forEach((elem) => { elem.value = '' })
+}
+
 function deleteCookie() {
     const name = "name"
     document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -193,17 +198,22 @@ function deleteCookie() {
 
 
 saveButton.addEventListener('click', function () {
-    console.log('----- saveButton clicked -----')
+    console.log('----- save button clicked -----')
     saveCookie()
 })
 
 loadButton.addEventListener('click', function () {
-    console.log('----- loadButton clicked -----')
+    console.log('----- load button clicked -----')
     loadCookie()
 })
 
+clearButton.addEventListener('click', function () {
+    console.log('----- clear button clicked -----')
+    clearInputFields()
+})
+
 deleteButton.addEventListener('click', function () {
-    console.log('----- deleteButton clicked -----')
+    console.log('----- delete button clicked -----')
     deleteCookie()
 })
 
