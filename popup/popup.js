@@ -153,14 +153,24 @@ const inputToJSONstring = () => {
     return qsJSON
 }
 
+const JSONstringToInput = () => {
+    const qsJSON = '{"re":"smorg.netlify.app","queries":[{"selector":".title"},{"selector":".heading"}]}'
+    const site = JSON.parse(qsJSON)
+    urlregexInputElem.value = site.re
+    document.querySelectorAll('.qs').forEach((elem) => { elem.value = '' })
+    site.queries.forEach((obj, index) => {
+        document.querySelectorAll('.qs')[index].value = obj.selector
+    })
+
+}
+
 function saveCookie() {
     console.log(inputToJSONstring())
 }
 
-
-
 function loadCookie() {
     console.log('nothing to see here. move along')
+    JSONstringToInput()
 }
 
 
