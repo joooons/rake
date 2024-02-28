@@ -9,19 +9,22 @@
 </head>
 
 <body>
-    <h1>RAKE</h1>
+    <div class="header">RAKE</div>
     <button class="content-control pointer" id="button">SAVE RAW TEXT</button>
     <button class="content-control pointer" id="tab">OPEN NEW TAB</button>
     <div class="cookie-controls">
         <div>COOKIE CONTROLS</div>
         <div class="cookie-buttons">
-            <button class="pointer" id="save">save</button>
-            <button class="pointer" id="load">load</button>
-            <button class="pointer" id="clear">clear</button>
-            <button class="pointer" id="del">delete</button>
+            <button class="pointer" id="save">SAVE</button>
+            <button class="pointer" id="load">LOAD</button>
+            <button class="pointer" id="del">DELETE</button>
         </div>
     </div>
     <div id="message">RAKE loaded</div>
+    <div>
+        <label for="urlregex"></label>
+        <button class="pointer" id="clear">CLEAR INPUT FIELDS</button>
+    </div>
     <div>
         <label for="urlregex">url regex: </label>
         <input class="common-input" id="urlregex" placeholder="url regex" />
