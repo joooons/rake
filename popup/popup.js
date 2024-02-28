@@ -202,13 +202,11 @@ message.textContent = 'chrome extention RAKE loaded'
 
 function runScriptOnTab(selectors, openNewTab) {
     console.log('RAKE script running...')
-    // same
 
     const tabURL = window.document.URL
     const ribbonID = 'rake-ribbon-gibberish-souplantatious'
     let supportedSiteFound = false
     let data = ''
-    // same
 
     const saveRaked = (text) => {
         const fileName = "raked.txt"
@@ -220,7 +218,6 @@ function runScriptOnTab(selectors, openNewTab) {
         link.click();
         document.body.removeChild(link);
     }
-    // unique. THEREFORE keep!!!
 
     const addRibbon = (ribbonID) => {
         const ribbon = document.createElement('div')
@@ -255,10 +252,8 @@ function runScriptOnTab(selectors, openNewTab) {
         ribbon.textContent = (openNewTab) ? 'RAKE attempting to open new tab' : 'RAKE not supported'
         document.body.insertBefore(ribbon, document.body.firstChild)
     }
-    // same
 
     addRibbon(ribbonID)
-    // same
 
     selectors.sites.forEach((site) => {
         if (tabURL.match(new RegExp(site.re, "i"))) {
@@ -282,12 +277,9 @@ function runScriptOnTab(selectors, openNewTab) {
                     }
                 })
             })
-
-            // data = data + textArray.join(space) + space
             data = (openNewTab) ? data + textArray.join('') : data + textArray.join(space) + space
         }
     })
-    // same
 
     if (openNewTab) {
         if (data) {
@@ -309,6 +301,4 @@ function runScriptOnTab(selectors, openNewTab) {
             document.getElementById(ribbonID).textContent = 'RAKE not supported'
         }
     }
-    // same
-
 }
