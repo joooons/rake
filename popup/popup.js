@@ -168,6 +168,7 @@ function saveCookie() {
         let date = new Date()
         date.setFullYear(date.getFullYear() + 1)
         document.cookie = name + '=' + cookieString + '; expires=' + date.toUTCString() + '; path=/'
+        messageElem.textContent = 'cookie saved'
     } else {
         messageElem.textContent = 'nothing to save'
     }
@@ -180,6 +181,7 @@ function loadCookie() {
     console.log(jsonString)
     if (jsonString) {
         JSONstringToInput(jsonString.substring(name.length + 1))
+        messageElem.textContent = 'cookie loaded'
     } else {
         messageElem.textContent = 'nothing to load'
     }
@@ -189,12 +191,15 @@ function loadCookie() {
 function clearInputFields() {
     urlregexInputElem.value = ''
     document.querySelectorAll('.qs').forEach((elem) => { elem.value = '' })
+    messageElem.textContent = 'input fields cleared'
 }
 
 function deleteCookie() {
     const name = "name"
     document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    messageElem.textContent = 'cookie deleted'
 }
+
 
 
 //  MMMMMMMM  MM      MM  MMMMMMMM  MM    MM  MMMMMM  
@@ -203,6 +208,7 @@ function deleteCookie() {
 //  MM        MM      MM  MM        MM    MM    MM    
 //  MM          MM  MM    MM        MM    MM    MM    
 //  MMMMMMMM      MM      MMMMMMMM  MM    MM    MM    
+
 
 
 saveButton.addEventListener('click', function () {
@@ -224,8 +230,6 @@ deleteButton.addEventListener('click', function () {
     console.log('----- delete button clicked -----')
     deleteCookie()
 })
-
-
 
 saveRawTextButton.addEventListener('click', function () {
     const willThisOpenNewTab = false
