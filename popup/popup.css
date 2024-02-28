@@ -10,6 +10,11 @@ input {
     border: 1px dotted gray;
 }
 
+label {
+    display: inline-block;
+    width: 50px;
+}
+
 .content-control {
     margin-top: 0.5rem;
     width: 250px;
@@ -32,7 +37,7 @@ input {
 
 .common-input {
     margin-top: 0.5rem;
-    width: 244px;
+    width: 190px;
     border-radius: 5px;
     background-color: rgba(231, 243, 254, 0.9);
     text-align: center;
