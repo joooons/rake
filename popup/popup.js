@@ -68,7 +68,16 @@ const message = document.getElementById('message')
 const qs = document.getElementsByClassName('qs')
 const bookend = document.getElementById('bookend')
 
-// FUNCTIONS --------------------------------
+
+
+//  MMMMMMMM  MM    MM  MM    MM    MMMM    
+//  MM        MM    MM  MMMM  MM  MM    MM  
+//  MMMMMMMM  MM    MM  MM  MMMM  MM        
+//  MM        MM    MM  MM    MM  MM        
+//  MM        MM    MM  MM    MM  MM    MM  
+//  MM          MMMM    MM    MM    MMMM    
+
+
 
 async function getCurrentTab() {
     let queryOptions = { active: true, lastFocusedWindow: true };
@@ -96,7 +105,6 @@ function makeDuplicable(elem) {
 
 async function handleClick(willThisOpenNewTab) {
     let currentTab = null
-
     const customURL = document.getElementById('urlregex').value
     const qs = []
     document.querySelectorAll('.qs').forEach((node) => {
@@ -104,13 +112,10 @@ async function handleClick(willThisOpenNewTab) {
             qs.push({ "selector": node.value })
         }
     })
-
     const newSite = { "re": customURL, "queries": qs }
-
     if (newSite.re) {
         selectors.sites.push(newSite)
     }
-
     try {
         currentTab = await getCurrentTab();
         if (currentTab) {
@@ -135,12 +140,18 @@ async function handleClick(willThisOpenNewTab) {
     } catch (error) {
         message.textContent = 'What triggers this?'
     }
-
 }
 
 
 
-// EVENT LISTENERS ----------------------------------
+//  MMMMMMMM  MM      MM  MMMMMMMM  MM    MM  MMMMMM  
+//  MM        MM      MM  MM        MMMM  MM    MM    
+//  MMMMMMMM  MM      MM  MMMMMMMM  MM  MMMM    MM    
+//  MM        MM      MM  MM        MM    MM    MM    
+//  MM          MM  MM    MM        MM    MM    MM    
+//  MMMMMMMM      MM      MMMMMMMM  MM    MM    MM    
+
+
 
 
 tab.addEventListener('click', function () {
@@ -153,16 +164,19 @@ button.addEventListener('click', function () {
     handleClick(willThisOpenNewTab)
 })
 
-
 // makeDuplicable(qs[0])
 // I disabled this in favor of just having five query selector input elements always.
 
-message.textContent = 'chrome extention RAKE loaded'
 
 
+//    MMMM      MMMM    MMMMMM    MMMMMM  MMMMMM    MMMMMM  
+//  MM    MM  MM    MM  MM    MM    MM    MM    MM    MM    
+//    MM      MM        MMMMMM      MM    MM    MM    MM    
+//      MM    MM        MM    MM    MM    MMMMMM      MM    
+//  MM    MM  MM    MM  MM    MM    MM    MM          MM    
+//    MMMM      MMMM    MM    MM  MMMMMM  MM          MM    
 
 
-// ----------- script to run in current tab -------------
 
 function runScriptOnTab(selectors, openNewTab) {
     console.log('RAKE script running...')
