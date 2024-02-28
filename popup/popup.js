@@ -152,7 +152,7 @@ const inputToJSONstring = () => {
     return (re) ? JSON.stringify(site) : ''
 }
 
-const JSONstringToInput = (jsonString) => {
+const useJSONstringToFillInputFields = (jsonString) => {
     const site = JSON.parse(jsonString)
     urlregexInputElem.value = site.re
     document.querySelectorAll('.qs').forEach((elem) => { elem.value = '' })
@@ -179,7 +179,7 @@ function loadCookie() {
     const jsonString = document.cookie
     console.log(jsonString)
     if (jsonString) {
-        JSONstringToInput(jsonString.substring(name.length + 1))
+        useJSONstringToFillInputFields(jsonString.substring(name.length + 1))
         messageElem.textContent = 'url regex and selectors loaded from cookie'
     } else {
         messageElem.textContent = 'nothing to load'
