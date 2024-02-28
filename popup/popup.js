@@ -178,6 +178,11 @@ function loadCookie() {
     JSONstringToInput(jsonString.substring(name.length + 1))
 }
 
+function deleteCookie() {
+    const name = "name"
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+
 
 //  MMMMMMMM  MM      MM  MMMMMMMM  MM    MM  MMMMMM  
 //  MM        MM      MM  MM        MMMM  MM    MM    
@@ -193,9 +198,15 @@ saveButton.addEventListener('click', function () {
 })
 
 loadButton.addEventListener('click', function () {
-    console.log('loadButton clicked')
+    console.log('----- loadButton clicked -----')
     loadCookie()
 })
+
+deleteButton.addEventListener('click', function () {
+    console.log('----- deleteButton clicked -----')
+    deleteCookie()
+})
+
 
 
 saveRawTextButton.addEventListener('click', function () {
