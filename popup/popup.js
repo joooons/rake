@@ -149,8 +149,7 @@ const inputToJSONstring = () => {
         "re": re,
         "queries": qs
     }
-    const qsJSON = JSON.stringify(site)
-    return qsJSON
+    return (re) ? JSON.stringify(site) : ''
 }
 
 const JSONstringToInput = (jsonString) => {
@@ -165,10 +164,14 @@ const JSONstringToInput = (jsonString) => {
 function saveCookie() {
     const name = "name"
     const cookieString = inputToJSONstring()
-    let date = new Date()
-    date.setFullYear(date.getFullYear() + 1)
-    const cookie = name + '=' + cookieString + '; expires=' + date.toUTCString() + '; path=/'
-    document.cookie = cookie
+    if (cookieString) {
+        let date = new Date()
+        date.setFullYear(date.getFullYear() + 1)
+        document.cookie = name + '=' + cookieString + '; expires=' + date.toUTCString() + '; path=/'
+    } else {
+        messageElem.textContent = 'nothing to save'
+    }
+
 }
 
 function loadCookie() {
