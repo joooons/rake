@@ -178,7 +178,12 @@ function loadCookie() {
     const name = "name"
     const jsonString = document.cookie
     console.log(jsonString)
-    JSONstringToInput(jsonString.substring(name.length + 1))
+    if (jsonString) {
+        JSONstringToInput(jsonString.substring(name.length + 1))
+    } else {
+        messageElem.textContent = 'nothing to load'
+    }
+
 }
 
 function clearInputFields() {
