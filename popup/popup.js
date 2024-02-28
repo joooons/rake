@@ -58,15 +58,14 @@ let selectors = {
     ]
 }
 
-const button = document.getElementById('button')
-const tab = document.getElementById('tab')
-const save = document.getElementById('save')
-const load = document.getElementById('load')
-const clear = document.getElementById('clear')
-const del = document.getElementById('del')
-const message = document.getElementById('message')
-const qs = document.getElementsByClassName('qs')
-const bookend = document.getElementById('bookend')
+const saveRawTextButton = document.getElementById('button')
+const openNewTabButton = document.getElementById('tab')
+const saveButton = document.getElementById('save')
+const loadButton = document.getElementById('load')
+const clearButton = document.getElementById('clear')
+const deleteButton = document.getElementById('del')
+const messageElem = document.getElementById('message')
+const bookendElem = document.getElementById('bookend')
 
 
 
@@ -94,7 +93,7 @@ function makeDuplicable(elem) {
                 elem.className = 'qs common'
                 elem.placeholder = 'custom selector'
                 makeDuplicable(elem)
-                document.body.insertBefore(elem, bookend)
+                document.body.insertBefore(elem, bookendElem)
                 this.removeEventListener('keydown', duplicate)
                 elem.focus()
             }
@@ -123,22 +122,22 @@ async function handleClick(willThisOpenNewTab) {
             selectors.sites.forEach((site) => {
                 if (currentTab.url.match(new RegExp(site.re, "i"))) {
                     supportedSiteFound = true
-                    message.textContent = 'testing on id:' + currentTab.id
+                    messageElem.textContent = 'testing on id:' + currentTab.id
                     chrome.scripting.executeScript({
                         target: { tabId: currentTab.id },
                         func: runScriptOnTab,
                         args: [selectors, willThisOpenNewTab]
                     }).then(() => {
-                        message.textContent = 'script executed'
+                        messageElem.textContent = 'script executed'
                     });
                 }
             })
             if (!supportedSiteFound) {
-                message.textContent = 'URL not supported'
+                messageElem.textContent = 'URL not supported'
             }
         }
     } catch (error) {
-        message.textContent = 'What triggers this?'
+        messageElem.textContent = 'What triggers this?'
     }
 }
 
@@ -153,14 +152,13 @@ async function handleClick(willThisOpenNewTab) {
 
 
 
-
-tab.addEventListener('click', function () {
-    const willThisOpenNewTab = true
+saveRawTextButton.addEventListener('click', function () {
+    const willThisOpenNewTab = false
     handleClick(willThisOpenNewTab)
 })
 
-button.addEventListener('click', function () {
-    const willThisOpenNewTab = false
+openNewTabButton.addEventListener('click', function () {
+    const willThisOpenNewTab = true
     handleClick(willThisOpenNewTab)
 })
 
