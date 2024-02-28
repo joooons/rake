@@ -86,6 +86,7 @@ async function getCurrentTab() {
 }
 
 function makeDuplicable(elem) {
+    // currently not in use. This makes .qs element to create another when Enter is pressed
     function duplicate(event) {
         if (event.key === 'Enter') {
             console.log(document.querySelectorAll('.qs').length)
@@ -116,29 +117,25 @@ async function handleClick(willThisOpenNewTab) {
     if (newSite.re) {
         selectors.sites.push(newSite)
     }
-    try {
-        currentTab = await getCurrentTab();
-        if (currentTab) {
-            let supportedSiteFound = false
-            selectors.sites.forEach((site) => {
-                if (currentTab.url.match(new RegExp(site.re, "i"))) {
-                    supportedSiteFound = true
-                    messageElem.textContent = 'testing on id:' + currentTab.id
-                    chrome.scripting.executeScript({
-                        target: { tabId: currentTab.id },
-                        func: runScriptOnTab,
-                        args: [selectors, willThisOpenNewTab]
-                    }).then(() => {
-                        messageElem.textContent = 'script executed'
-                    });
-                }
-            })
-            if (!supportedSiteFound) {
-                messageElem.textContent = 'URL not supported'
+    currentTab = await getCurrentTab();
+    if (currentTab) {
+        let supportedSiteFound = false
+        selectors.sites.forEach((site) => {
+            if (currentTab.url.match(new RegExp(site.re, "i"))) {
+                supportedSiteFound = true
+                messageElem.textContent = 'testing on id:' + currentTab.id
+                chrome.scripting.executeScript({
+                    target: { tabId: currentTab.id },
+                    func: runScriptOnTab,
+                    args: [selectors, willThisOpenNewTab]
+                }).then(() => {
+                    messageElem.textContent = 'script executed'
+                });
             }
+        })
+        if (!supportedSiteFound) {
+            messageElem.textContent = 'URL not supported'
         }
-    } catch (error) {
-        messageElem.textContent = 'What triggers this?'
     }
 }
 
@@ -170,7 +167,7 @@ function saveCookie() {
         document.cookie = name + '=' + cookieString + '; expires=' + date.toUTCString() + '; path=/'
         messageElem.textContent = 'url regex and selectors saved in cookie'
     } else {
-        messageElem.textContent = 'nothing to save because url regex is empty'
+        messageElem.textContent = 'nothing to save because url regex input field is empty'
     }
 }
 
@@ -182,19 +179,20 @@ function loadCookie() {
         useJSONstringToFillInputFields(jsonString.substring(name.length + 1))
         messageElem.textContent = 'url regex and selectors loaded from cookie'
     } else {
-        messageElem.textContent = 'nothing to load'
+        messageElem.textContent = 'no cookie to load'
     }
 }
 
 function clearInputFields() {
     urlregexInputElem.value = ''
     document.querySelectorAll('.qs').forEach((elem) => { elem.value = '' })
-    messageElem.textContent = 'url regex and selector input fields cleared'
+    messageElem.textContent = 'input fields cleared'
 }
 
 function deleteCookie() {
     const name = "name"
     document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    clearInputFields()
     messageElem.textContent = 'cookie deleted'
 }
 
