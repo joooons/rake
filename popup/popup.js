@@ -68,6 +68,8 @@ const urlregexInputElem = document.getElementById('urlregex')
 const messageElem = document.getElementById('message')
 const bookendElem = document.getElementById('bookend')
 
+const cookieName = 'rakeJSON'
+
 
 
 //  MMMMMMMM  MM    MM  MM    MM    MMMM    
@@ -159,7 +161,7 @@ const useJSONstringToFillInputFields = (jsonString) => {
 }
 
 function saveCookie() {
-    const name = "name"
+    const name = cookieName
     const cookieString = inputToJSONstring()
     if (cookieString) {
         let date = new Date()
@@ -172,7 +174,7 @@ function saveCookie() {
 }
 
 function loadCookie() {
-    const name = "name"
+    const name = cookieName
     const jsonString = document.cookie
     console.log(jsonString)
     if (jsonString) {
@@ -190,7 +192,7 @@ function clearInputFields() {
 }
 
 function deleteCookie() {
-    const name = "name"
+    const name = cookieName
     document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     clearInputFields()
     messageElem.textContent = 'cookie deleted'
