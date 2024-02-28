@@ -291,7 +291,7 @@ function runOpenTabScript(selectors) {
                     }
                 })
             })
-            data = data + textArray.join()
+            data = data + textArray.join('')
         }
     })
 
