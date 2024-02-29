@@ -1,68 +1,66 @@
-let selectors = {
-    "sites": [
-        {
-            "re": "linkedin\\.com\\/jobs\\/view",
-            "queries": [
-                {
-                    "selector": ".relative > .p5"
-                },
-                {
-                    "selector": "#job-details"
-                }
-            ]
-        },
-        {
-            "re": "linkedin\\.com\\/jobs\\/collections\\/recommended",
-            "queries": [
-                {
-                    "selector": "[class*='job-details-jobs-unified-top-card']"
-                },
-                {
-                    "selector": "[class*='jobs-description-content']"
-                }
-            ]
-        },
-        {
-            "re": "geeksforgeeks",
-            "queries": [
-                {
-                    "selector": "nav"
-                }
-            ]
-        },
-        {
-            "re": "notnewspage",
-            "queries": [
-                {
-                    "selector": ".br-article"
-                },
-                {
-                    "selector": ".br-footer"
-                }
-            ]
-        },
-        {
-            "re": "indeed\\.com\\/viewjob",
-            "queries": [
-                {
-                    "selector": ".jobsearch-InfoHeaderContainer",
-                },
-                {
-                    "selector": "#jobDetailsSection",
-                },
-                {
-                    "selector": "#jobDescriptionText",
-                }
-            ]
-        }
-    ]
-}
+// let selectors = {
+//     "sites": [
+//         {
+//             "re": "linkedin\\.com\\/jobs\\/view",
+//             "queries": [
+//                 {
+//                     "selector": ".relative > .p5"
+//                 },
+//                 {
+//                     "selector": "#job-details"
+//                 }
+//             ]
+//         },
+//         {
+//             "re": "linkedin\\.com\\/jobs\\/collections\\/recommended",
+//             "queries": [
+//                 {
+//                     "selector": "[class*='job-details-jobs-unified-top-card']"
+//                 },
+//                 {
+//                     "selector": "[class*='jobs-description-content']"
+//                 }
+//             ]
+//         },
+//         {
+//             "re": "geeksforgeeks",
+//             "queries": [
+//                 {
+//                     "selector": "nav"
+//                 }
+//             ]
+//         },
+//         {
+//             "re": "notnewspage",
+//             "queries": [
+//                 {
+//                     "selector": ".br-article"
+//                 },
+//                 {
+//                     "selector": ".br-footer"
+//                 }
+//             ]
+//         },
+//         {
+//             "re": "indeed\\.com\\/viewjob",
+//             "queries": [
+//                 {
+//                     "selector": ".jobsearch-InfoHeaderContainer",
+//                 },
+//                 {
+//                     "selector": "#jobDetailsSection",
+//                 },
+//                 {
+//                     "selector": "#jobDescriptionText",
+//                 }
+//             ]
+//         }
+//     ]
+// }
 
 const saveRawTextButton = document.getElementById('button')
 const openNewTabButton = document.getElementById('tab')
-
-const genButton = document.getElementById('generate')
-
+// const genButton = document.getElementById('generate')
 const saveButton = document.getElementById('save')
 const loadButton = document.getElementById('load')
 const clearButton = document.getElementById('clear')
@@ -141,7 +139,7 @@ async function saveStringToCookie(cookieString) {
 async function getArrayFromCookie() {
     const name = cookieName
     const jsonString = document.cookie.substring(name.length + 1)
-    const jsonObj = JSON.parse(jsonString)
+    const jsonObj = (jsonString) ? JSON.parse(jsonString) : { "sites": [] }
     return jsonObj.sites
 }
 
@@ -162,8 +160,8 @@ async function addInputToCookie() {
                 }
                 remaining.push(site)
                 const cookieString = `{"sites":` + JSON.stringify(remaining) + `}`
-                messageElem.textContent = cookieString
                 saveStringToCookie(cookieString)
+                messageElem.textContent = 'selector(s) saved to cookie'
             } else {
                 messageElem.textContent = 'please type a url regex that matches the current tab url'
             }
@@ -171,7 +169,7 @@ async function addInputToCookie() {
             messageElem.textContent = 'unable to get the current tab url'
         }
     } else {
-        messageElem.textContent = 'url regex is empty'
+        messageElem.textContent = 'unable to save because url regex is empty'
     }
 }
 
@@ -247,11 +245,11 @@ openNewTabButton.addEventListener('click', function () {
     extractText(willThisOpenNewTab)
 })
 
-genButton.addEventListener('click', function () {
-    console.log('----- generate -----')
-    let cookieString = `{"sites":[{"re":"geeks","queries":[{"selector":"nav"}]},{"re":"notnewspage","queries":[{"selector":".br-footer"}]},{"re":"indeed","queries":[{"selector":"#jobDetailsSection"}]}]}`
-    saveStringToCookie(cookieString)
-})
+// genButton.addEventListener('click', function () {
+//     console.log('----- generate -----')
+//     let cookieString = `{"sites":[{"re":"geeks","queries":[{"selector":"nav"}]},{"re":"notnewspage","queries":[{"selector":".br-footer"}]},{"re":"indeed","queries":[{"selector":"#jobDetailsSection"}]}]}`
+//     saveStringToCookie(cookieString)
+// })
 
 saveButton.addEventListener('click', function () {
     addInputToCookie()
