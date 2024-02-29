@@ -92,9 +92,7 @@ async function getCurrentTab() {
     return tab;
 }
 
-
-
-async function handleClick(willThisOpenNewTab) {
+async function extractText(willThisOpenNewTab) {
     let currentTab = null
     const customURL = document.getElementById('urlregex').value
     const qs = []
@@ -129,68 +127,6 @@ async function handleClick(willThisOpenNewTab) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-async function getArrayFromCookie() {
-    const name = cookieName
-    const jsonString = document.cookie.substring(name.length + 1)
-    const jsonObj = JSON.parse(jsonString)
-    return jsonObj.sites
-}
-
-
-async function addInputToCookie() {
-    const re = urlregexInputElem.value
-
-    if (!re) {
-        messageElem.textContent = 'url regex is empty'
-        return
-    }
-
-    let currentTab = await getCurrentTab();
-
-    try {
-        if (currentTab.url.match(new RegExp(re, "i"))) {
-            let sites = await getArrayFromCookie()
-            const remaining = sites.filter((site) => {
-                return (currentTab.url.match(new RegExp(site.re, "i"))) ? false : true
-            })
-
-            const qs = [...document.querySelectorAll('.qs')].filter((elem) => { return elem.value.length > 0 }).map((elem) => { return { "selector": elem.value } })
-            const site = {
-                "re": re,
-                "queries": qs
-            }
-
-            remaining.push(site)
-            const cookieString = `{"sites":` + JSON.stringify(remaining) + `}`
-
-            messageElem.textContent = cookieString
-
-            saveStringToCookie(cookieString)
-
-        } else {
-            messageElem.textContent = 'please type a url regex that matches the current tab url'
-        }
-    } catch {
-        messageElem.textContent = 'unable to get the current tab url'
-    }
-
-
-
-}
-
-
-
-
-
 async function saveStringToCookie(cookieString) {
     const name = cookieName
     if (cookieString) {
@@ -199,6 +135,43 @@ async function saveStringToCookie(cookieString) {
         document.cookie = name + '=' + cookieString + '; expires=' + date.toUTCString() + '; path=/'
     } else {
         messageElem.textContent = 'nothing to save'
+    }
+}
+
+async function getArrayFromCookie() {
+    const name = cookieName
+    const jsonString = document.cookie.substring(name.length + 1)
+    const jsonObj = JSON.parse(jsonString)
+    return jsonObj.sites
+}
+
+async function addInputToCookie() {
+    const re = urlregexInputElem.value
+    if (re) {
+        let currentTab = await getCurrentTab();
+        try {
+            if (currentTab.url.match(new RegExp(re, "i"))) {
+                let sites = await getArrayFromCookie()
+                const remaining = sites.filter((site) => {
+                    return (currentTab.url.match(new RegExp(site.re, "i"))) ? false : true
+                })
+                const qs = [...document.querySelectorAll('.qs')].filter((elem) => { return elem.value.length > 0 }).map((elem) => { return { "selector": elem.value } })
+                const site = {
+                    "re": re,
+                    "queries": qs
+                }
+                remaining.push(site)
+                const cookieString = `{"sites":` + JSON.stringify(remaining) + `}`
+                messageElem.textContent = cookieString
+                saveStringToCookie(cookieString)
+            } else {
+                messageElem.textContent = 'please type a url regex that matches the current tab url'
+            }
+        } catch {
+            messageElem.textContent = 'unable to get the current tab url'
+        }
+    } else {
+        messageElem.textContent = 'url regex is empty'
     }
 }
 
@@ -235,22 +208,17 @@ async function deleteThisSiteFromCookie() {
     }
 }
 
-
-
-
-
-
-function clearInputFields() {
-    urlregexInputElem.value = ''
-    document.querySelectorAll('.qs').forEach((elem) => { elem.value = '' })
-    messageElem.textContent = 'input fields cleared'
-}
-
 function deleteCookie() {
     const name = cookieName
     document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     clearInputFields()
     messageElem.textContent = 'cookie deleted'
+}
+
+function clearInputFields() {
+    urlregexInputElem.value = ''
+    document.querySelectorAll('.qs').forEach((elem) => { elem.value = '' })
+    messageElem.textContent = 'input fields cleared'
 }
 
 
@@ -269,14 +237,21 @@ window.addEventListener('load', function () {
     loadInputFromCookie()
 })
 
+saveRawTextButton.addEventListener('click', function () {
+    const willThisOpenNewTab = false
+    extractText(willThisOpenNewTab)
+})
+
+openNewTabButton.addEventListener('click', function () {
+    const willThisOpenNewTab = true
+    extractText(willThisOpenNewTab)
+})
 
 genButton.addEventListener('click', function () {
     console.log('----- generate -----')
     let cookieString = `{"sites":[{"re":"geeks","queries":[{"selector":"nav"}]},{"re":"notnewspage","queries":[{"selector":".br-footer"}]},{"re":"indeed","queries":[{"selector":"#jobDetailsSection"}]}]}`
     saveStringToCookie(cookieString)
 })
-
-
 
 saveButton.addEventListener('click', function () {
     addInputToCookie()
@@ -286,8 +261,6 @@ loadButton.addEventListener('click', function () {
     loadInputFromCookie()
 })
 
-
-
 deleteButton.addEventListener('click', function () {
     deleteThisSiteFromCookie()
 })
@@ -296,26 +269,10 @@ deleteAllButton.addEventListener('click', function () {
     deleteCookie()
 })
 
-
-
 clearButton.addEventListener('click', function () {
     console.log('----- clear button clicked -----')
     clearInputFields()
 })
-
-
-
-saveRawTextButton.addEventListener('click', function () {
-    const willThisOpenNewTab = false
-    handleClick(willThisOpenNewTab)
-})
-
-openNewTabButton.addEventListener('click', function () {
-    const willThisOpenNewTab = true
-    handleClick(willThisOpenNewTab)
-})
-
-
 
 
 
