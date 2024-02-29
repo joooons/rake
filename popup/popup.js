@@ -279,7 +279,7 @@ window.addEventListener('load', function () {
 
 genButton.addEventListener('click', function () {
     console.log('----- generate -----')
-    let cookieString = `{"sites":[{"re":"geeksforgeeks","queries":[{"selector":"nav"}]},{"re":"notnewspage","queries":[{"selector":".br-article"},{"selector":".br-footer"}]},{"re":"indeed.com/viewjob","queries":[{"selector":".jobsearch-InfoHeaderContainer"},{"selector":"#jobDetailsSection"},{"selector":"#jobDescriptionText"}]}]}`
+    let cookieString = `{"sites":[{"re":"geeks","queries":[{"selector":"nav"}]},{"re":"notnewspage","queries":[{"selector":".br-footer"}]},{"re":"indeed","queries":[{"selector":"#jobDetailsSection"}]}]}`
     saveCookie(cookieString)
 })
 
