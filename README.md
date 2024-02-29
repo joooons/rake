@@ -47,14 +47,18 @@ Chrome extension for scraping text from currently open tab according to user-def
 
 # Notes
 
-- The string inside the url regex is matched against the url, but it does not work with regular expressions yet.
+- The url regex string is matched against the url, but it does not work with regular expressions yet.
 
-- To run this extension without publishing, take the following steps:
+- To run this extension without publishing...
   - Clone the repo
   - Navigate to chrome://extensions/
   - Turn on Developer mode
   - Click on Load unpacked
   - Select 'rake', the location of this project
+
+## Privacy Policy
+
+This chrome extension stores url and query selector data locally in a cookie. This chrome extension does not collect any user data. See [privacy policy](https://www.freeprivacypolicy.com/live/e57e694f-b71e-430e-8e04-5268a7bcd780).
 
 ## License
 
