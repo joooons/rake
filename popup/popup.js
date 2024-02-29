@@ -149,6 +149,10 @@ async function handleClick(willThisOpenNewTab) {
     }
 }
 
+
+
+
+
 const inputToJSONstring = () => {
     const re = urlregexInputElem.value.replaceAll(".", "\\.").replaceAll("/", "\\/")
     const qs = [...document.querySelectorAll('.qs')].filter((elem) => { return elem.value.length > 0 }).map((elem) => { return { "selector": elem.value } })
@@ -170,37 +174,58 @@ const useJSONstringToFillInputFields = (jsonString) => {
 
 
 
-async function arrayOfCookies() {
+async function getArrayFromCookie() {
     const name = cookieName
     const jsonString = document.cookie.substring(name.length + 1)
     const jsonObj = JSON.parse(jsonString)
-    console.log(jsonObj)
-    return jsonObj
+    return jsonObj.sites
 }
+
 
 async function findOtherSites() {
-    let arr = arrayOfCookies()
+    const re = urlregexInputElem.value
     let currentTab = await getCurrentTab();
-    let index = -1
 
-    messageElem.textContent = arr
+    if (re && currentTab.url.match(new RegExp(re, "i"))) {
+        let sites = await getArrayFromCookie()
+        const remaining = sites.filter((site) => {
+            return (currentTab.url.match(new RegExp(site.re, "i"))) ? false : true
+        })
 
-    Array.from.arr.forEach((site, i) => {
-        if (currentTab.url.match(new RegExp(site.re, "i"))) {
-            index = i
+        const qs = [...document.querySelectorAll('.qs')].filter((elem) => { return elem.value.length > 0 }).map((elem) => { return { "selector": elem.value } })
+        const site = {
+            "re": re,
+            "queries": qs
         }
-    })
-    console.log(arr)
-    if (index >= 0) {
-        arr.pop(index)
+
+        remaining.push(site)
+        const cookieString = JSON.stringify(remaining)
+
+        const name = cookieName
+        if (cookieString) {
+
+            let date = new Date()
+            date.setFullYear(date.getFullYear() + 1)
+
+            document.cookie = name + '=' + cookieString + '; expires=' + date.toUTCString() + '; path=/'
+
+            messageElem.textContent = 'url regex and selectors saved in cookie'
+        } else {
+            messageElem.textContent = 'nothing to save because url regex input field is empty'
+        }
     }
-    console.log(arr)
-    return arr
+
+
+
+
 }
 
-async function saveCookie() {
+
+
+
+
+async function saveCookie(cookieString) {
     const name = cookieName
-    const cookieString = inputToJSONstring()
     if (cookieString) {
         let date = new Date()
         date.setFullYear(date.getFullYear() + 1)
@@ -254,10 +279,14 @@ window.addEventListener('load', function () {
 
 genButton.addEventListener('click', function () {
     console.log('----- generate -----')
+    let cookieString = `{"sites":[{"re":"geeksforgeeks","queries":[{"selector":"nav"}]},{"re":"notnewspage","queries":[{"selector":".br-article"},{"selector":".br-footer"}]},{"re":"indeed.com/viewjob","queries":[{"selector":".jobsearch-InfoHeaderContainer"},{"selector":"#jobDetailsSection"},{"selector":"#jobDescriptionText"}]}]}`
+    saveCookie(cookieString)
 })
 
 savButton.addEventListener('click', function () {
     console.log('----- fake save -----')
+    findOtherSites()
+    // console.log(arr)
 })
 
 lodButton.addEventListener('click', function () {
@@ -269,14 +298,15 @@ delaButton.addEventListener('click', function () {
 })
 
 
+
 saveButton.addEventListener('click', function () {
     console.log('----- save button clicked -----')
-    saveCookie()
+    // saveCookie(inputToJSONstring())
 })
 
 loadButton.addEventListener('click', function () {
     console.log('----- load button clicked -----')
-    loadCookie()
+    // loadCookie()
 })
 
 clearButton.addEventListener('click', function () {
