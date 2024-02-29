@@ -195,7 +195,7 @@ async function addInputToCookie() {
             saveStringToCookie(cookieString)
 
         } else {
-            messageElem.textContent = 'url regex does not match current url'
+            messageElem.textContent = 'please type a url regex that matches the current tab url'
         }
     } catch {
         messageElem.textContent = 'unable to get the current tab url'
@@ -215,9 +215,8 @@ async function saveStringToCookie(cookieString) {
         let date = new Date()
         date.setFullYear(date.getFullYear() + 1)
         document.cookie = name + '=' + cookieString + '; expires=' + date.toUTCString() + '; path=/'
-        messageElem.textContent = 'url regex and selectors saved in cookie'
     } else {
-        messageElem.textContent = 'nothing to save because url regex input field is empty'
+        messageElem.textContent = 'nothing to save'
     }
 }
 
@@ -239,6 +238,22 @@ async function loadInputFromCookie() {
     }
 }
 
+async function deleteThisSiteFromCookie() {
+    let currentTab = await getCurrentTab()
+    let sites = await getArrayFromCookie()
+    const remaining = sites.filter((site) => {
+        return (currentTab.url.match(new RegExp(site.re, "i"))) ? false : true
+    })
+    if (remaining.length < sites.length) {
+        const cookieString = `{"sites":` + JSON.stringify(remaining) + `}`
+        saveStringToCookie(cookieString)
+        messageElem.textContent = 'this url removed from cookie'
+    } else {
+        messageElem.textContent = 'nothing to remove'
+    }
+}
+
+
 function loadCookie() {
     const name = cookieName
     const jsonString = document.cookie
@@ -250,6 +265,8 @@ function loadCookie() {
         messageElem.textContent = 'no cookie to load'
     }
 }
+
+
 
 function clearInputFields() {
     urlregexInputElem.value = ''
@@ -299,6 +316,7 @@ lodButton.addEventListener('click', function () {
 
 delaButton.addEventListener('click', function () {
     console.log('----- dela -----')
+    deleteThisSiteFromCookie()
 })
 
 
