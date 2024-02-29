@@ -165,10 +165,7 @@ function clearInputFields() {
 
 
 
-window.addEventListener('load', function () {
-    console.log('something')
-    loadInputFromCookie()
-})
+window.addEventListener('load', loadInputFromCookie)
 
 saveRawTextButton.addEventListener('click', function () {
     const willThisOpenNewTab = false
@@ -180,26 +177,15 @@ openNewTabButton.addEventListener('click', function () {
     extractText(willThisOpenNewTab)
 })
 
-saveButton.addEventListener('click', function () {
-    addInputToCookie()
-})
+saveButton.addEventListener('click', addInputToCookie)
 
-loadButton.addEventListener('click', function () {
-    loadInputFromCookie()
-})
+loadButton.addEventListener('click', loadInputFromCookie)
 
-deleteButton.addEventListener('click', function () {
-    deleteThisSiteFromCookie()
-})
+deleteButton.addEventListener('click', deleteThisSiteFromCookie)
 
-deleteAllButton.addEventListener('click', function () {
-    deleteCookie()
-})
+deleteAllButton.addEventListener('click', deleteCookie)
 
-clearButton.addEventListener('click', function () {
-    console.log('----- clear button clicked -----')
-    clearInputFields()
-})
+clearButton.addEventListener('click', clearInputFields)
 
 
 
@@ -213,8 +199,6 @@ clearButton.addEventListener('click', function () {
 
 
 function runScriptOnTab(selectors, openNewTab) {
-    console.log('RAKE script running...')
-
     const tabURL = window.document.URL
     const ribbonID = 'rake-ribbon-gibberish-souplantatious'
     let supportedSiteFound = false
@@ -235,10 +219,11 @@ function runScriptOnTab(selectors, openNewTab) {
         const ribbon = document.createElement('div')
         const props = {
             position: 'fixed',
-            top: '0',
+            top: '10px',
             left: '25%',
             width: '50%',
             borderRadius: '20px',
+            boxShadow: '0px 3px 8px rgba(0, 0, 0, 0.5)',
             textAlign: 'center',
             padding: '20px',
             zIndex: '9999',
@@ -249,10 +234,7 @@ function runScriptOnTab(selectors, openNewTab) {
             transition: 'opacity 2s'
         }
         Object.assign(ribbon.style, props)
-
-        ribbon.addEventListener('click', () => {
-            ribbon.remove();
-        })
+        ribbon.addEventListener('click', ribbon.remove)
         setTimeout(() => {
             ribbon.style.opacity = 0;
             setTimeout(() => {
@@ -261,19 +243,15 @@ function runScriptOnTab(selectors, openNewTab) {
         }, 7000)
 
         ribbon.id = ribbonID
-        ribbon.textContent = (openNewTab) ? 'RAKE attempting to open new tab' : 'RAKE not supported'
+        ribbon.textContent = (openNewTab) ? 'attempting to open new tab' : 'not supported'
         document.body.insertBefore(ribbon, document.body.firstChild)
     }
-
     addRibbon(ribbonID)
-
     selectors.sites.forEach((site) => {
         if (tabURL.match(new RegExp(site.re, "i"))) {
-
             supportedSiteFound = true
             let textArray = []
-            const space = '\n\n----------------------\n\n'
-
+            const space = '\n\n'
 
             site.queries.forEach((query) => {
                 const elems = document.querySelectorAll(query.selector)
@@ -286,7 +264,7 @@ function runScriptOnTab(selectors, openNewTab) {
                         if (elem.innerText) {
                             textArray.push(elem.innerText)
                         } else {
-                            textArray.push('innerText not found for this query selector: ' + query.selector)
+                            textArray.push('<-- innerText not found for this query selector: ' + query.selector + ' -->')
                         }
                     }
                 })
