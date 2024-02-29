@@ -60,6 +60,12 @@ let selectors = {
 
 const saveRawTextButton = document.getElementById('button')
 const openNewTabButton = document.getElementById('tab')
+
+const genButton = document.getElementById('generate')
+const savButton = document.getElementById('sav')
+const lodButton = document.getElementById('lod')
+const delaButton = document.getElementById('dela')
+
 const saveButton = document.getElementById('save')
 const loadButton = document.getElementById('load')
 const clearButton = document.getElementById('clear')
@@ -69,6 +75,8 @@ const messageElem = document.getElementById('message')
 const bookendElem = document.getElementById('bookend')
 
 const cookieName = 'rakeJSON'
+
+let otherSites = null
 
 
 
@@ -160,7 +168,37 @@ const useJSONstringToFillInputFields = (jsonString) => {
     })
 }
 
-function saveCookie() {
+
+
+async function arrayOfCookies() {
+    const name = cookieName
+    const jsonString = document.cookie.substring(name.length + 1)
+    const jsonObj = JSON.parse(jsonString)
+    console.log(jsonObj)
+    return jsonObj
+}
+
+async function findOtherSites() {
+    let arr = arrayOfCookies()
+    let currentTab = await getCurrentTab();
+    let index = -1
+
+    messageElem.textContent = arr
+
+    Array.from.arr.forEach((site, i) => {
+        if (currentTab.url.match(new RegExp(site.re, "i"))) {
+            index = i
+        }
+    })
+    console.log(arr)
+    if (index >= 0) {
+        arr.pop(index)
+    }
+    console.log(arr)
+    return arr
+}
+
+async function saveCookie() {
     const name = cookieName
     const cookieString = inputToJSONstring()
     if (cookieString) {
@@ -176,10 +214,10 @@ function saveCookie() {
 function loadCookie() {
     const name = cookieName
     const jsonString = document.cookie
-    console.log(jsonString)
     if (jsonString) {
         useJSONstringToFillInputFields(jsonString.substring(name.length + 1))
         messageElem.textContent = 'url regex and selectors loaded from cookie'
+        messageElem.textContent = jsonString
     } else {
         messageElem.textContent = 'no cookie to load'
     }
@@ -212,6 +250,24 @@ function deleteCookie() {
 window.addEventListener('load', function () {
     loadCookie()
 })
+
+
+genButton.addEventListener('click', function () {
+    console.log('----- generate -----')
+})
+
+savButton.addEventListener('click', function () {
+    console.log('----- fake save -----')
+})
+
+lodButton.addEventListener('click', function () {
+    console.log('----- fake lod -----')
+})
+
+delaButton.addEventListener('click', function () {
+    console.log('----- dela -----')
+})
+
 
 saveButton.addEventListener('click', function () {
     console.log('----- save button clicked -----')
