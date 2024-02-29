@@ -184,37 +184,40 @@ async function getArrayFromCookie() {
 
 async function findOtherSites() {
     const re = urlregexInputElem.value
-    let currentTab = await getCurrentTab();
 
-    if (re && currentTab.url.match(new RegExp(re, "i"))) {
-        let sites = await getArrayFromCookie()
-        const remaining = sites.filter((site) => {
-            return (currentTab.url.match(new RegExp(site.re, "i"))) ? false : true
-        })
-
-        const qs = [...document.querySelectorAll('.qs')].filter((elem) => { return elem.value.length > 0 }).map((elem) => { return { "selector": elem.value } })
-        const site = {
-            "re": re,
-            "queries": qs
-        }
-
-        remaining.push(site)
-        const cookieString = JSON.stringify(remaining)
-
-        const name = cookieName
-        if (cookieString) {
-
-            let date = new Date()
-            date.setFullYear(date.getFullYear() + 1)
-
-            document.cookie = name + '=' + cookieString + '; expires=' + date.toUTCString() + '; path=/'
-
-            messageElem.textContent = 'url regex and selectors saved in cookie'
-        } else {
-            messageElem.textContent = 'nothing to save because url regex input field is empty'
-        }
+    if (!re) {
+        messageElem.textContent = 'url regex is empty'
+        return
     }
 
+    let currentTab = await getCurrentTab();
+
+    try {
+        if (currentTab.url.match(new RegExp(re, "i"))) {
+            let sites = await getArrayFromCookie()
+            const remaining = sites.filter((site) => {
+                return (currentTab.url.match(new RegExp(site.re, "i"))) ? false : true
+            })
+
+            const qs = [...document.querySelectorAll('.qs')].filter((elem) => { return elem.value.length > 0 }).map((elem) => { return { "selector": elem.value } })
+            const site = {
+                "re": re,
+                "queries": qs
+            }
+
+            remaining.push(site)
+            const cookieString = `{"sites":` + JSON.stringify(remaining) + `}`
+
+            messageElem.textContent = cookieString
+
+            saveCookie(cookieString)
+
+        } else {
+            messageElem.textContent = 'url regex does not match current url'
+        }
+    } catch {
+        messageElem.textContent = 'unable to get the current tab url'
+    }
 
 
 
@@ -273,7 +276,8 @@ function deleteCookie() {
 
 
 window.addEventListener('load', function () {
-    loadCookie()
+    console.log('something')
+    // loadCookie()
 })
 
 
