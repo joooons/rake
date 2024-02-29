@@ -91,7 +91,7 @@ async function getCurrentTab() {
 }
 
 async function extractText(willThisOpenNewTab) {
-    let currentTab = null
+
     const customURL = document.getElementById('urlregex').value
     const qs = []
     document.querySelectorAll('.qs').forEach((node) => {
@@ -99,11 +99,12 @@ async function extractText(willThisOpenNewTab) {
             qs.push({ "selector": node.value })
         }
     })
-    const newSite = { "re": customURL, "queries": qs }
-    if (newSite.re) {
-        selectors.sites.push(newSite)
+    const selectors = {
+        "sites": [
+            { "re": customURL, "queries": qs }
+        ]
     }
-    currentTab = await getCurrentTab();
+    let currentTab = await getCurrentTab();
     if (currentTab) {
         let supportedSiteFound = false
         selectors.sites.forEach((site) => {
