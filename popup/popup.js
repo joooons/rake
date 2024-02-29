@@ -8,7 +8,7 @@ const deleteAllButton = document.getElementById('deleteAll')
 const urlregexInputElem = document.getElementById('urlregex')
 const messageElem = document.getElementById('message')
 const bookendElem = document.getElementById('bookend')
-const cookieName = 'rakeJSON'
+const COOKIE_NAME = 'rakeJSON'
 
 
 
@@ -64,19 +64,17 @@ async function extractText(willThisOpenNewTab) {
 }
 
 async function saveStringToCookie(cookieString) {
-    const name = cookieName
     if (cookieString) {
         let date = new Date()
         date.setFullYear(date.getFullYear() + 1)
-        document.cookie = name + '=' + cookieString + '; expires=' + date.toUTCString() + '; path=/'
+        document.cookie = COOKIE_NAME + '=' + cookieString + '; expires=' + date.toUTCString() + '; path=/'
     } else {
         messageElem.textContent = 'nothing to save'
     }
 }
 
 async function getArrayFromCookie() {
-    const name = cookieName
-    const jsonString = document.cookie.substring(name.length + 1)
+    const jsonString = document.cookie.substring(COOKIE_NAME.length + 1)
     const jsonObj = (jsonString) ? JSON.parse(jsonString) : { "sites": [] }
     return jsonObj.sites
 }
@@ -145,8 +143,7 @@ async function deleteThisSiteFromCookie() {
 }
 
 function deleteCookie() {
-    const name = cookieName
-    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = COOKIE_NAME + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     clearInputFields()
     messageElem.textContent = 'cookie deleted'
 }
