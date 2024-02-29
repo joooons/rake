@@ -62,14 +62,12 @@ const saveRawTextButton = document.getElementById('button')
 const openNewTabButton = document.getElementById('tab')
 
 const genButton = document.getElementById('generate')
-const savButton = document.getElementById('sav')
-const lodButton = document.getElementById('lod')
-const delaButton = document.getElementById('dela')
 
 const saveButton = document.getElementById('save')
 const loadButton = document.getElementById('load')
 const clearButton = document.getElementById('clear')
-const deleteButton = document.getElementById('del')
+const deleteButton = document.getElementById('delete')
+const deleteAllButton = document.getElementById('deleteAll')
 const urlregexInputElem = document.getElementById('urlregex')
 const messageElem = document.getElementById('message')
 const bookendElem = document.getElementById('bookend')
@@ -304,42 +302,34 @@ genButton.addEventListener('click', function () {
     saveStringToCookie(cookieString)
 })
 
-savButton.addEventListener('click', function () {
-    console.log('----- fake save -----')
-    addInputToCookie()
-})
-
-lodButton.addEventListener('click', function () {
-    console.log('----- fake lod -----')
-    loadInputFromCookie()
-})
-
-delaButton.addEventListener('click', function () {
-    console.log('----- dela -----')
-    deleteThisSiteFromCookie()
-})
-
 
 
 saveButton.addEventListener('click', function () {
-    console.log('----- save button clicked -----')
-    // saveStringToCookie(inputToJSONstring())
+    addInputToCookie()
 })
 
 loadButton.addEventListener('click', function () {
-    console.log('----- load button clicked -----')
-    // loadCookie()
+    loadInputFromCookie()
 })
+
+
+
+deleteButton.addEventListener('click', function () {
+    deleteThisSiteFromCookie()
+})
+
+deleteAllButton.addEventListener('click', function () {
+    deleteCookie()
+})
+
+
 
 clearButton.addEventListener('click', function () {
     console.log('----- clear button clicked -----')
     clearInputFields()
 })
 
-deleteButton.addEventListener('click', function () {
-    console.log('----- delete button clicked -----')
-    deleteCookie()
-})
+
 
 saveRawTextButton.addEventListener('click', function () {
     const willThisOpenNewTab = false
