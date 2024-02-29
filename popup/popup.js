@@ -1,66 +1,5 @@
-// let selectors = {
-//     "sites": [
-//         {
-//             "re": "linkedin\\.com\\/jobs\\/view",
-//             "queries": [
-//                 {
-//                     "selector": ".relative > .p5"
-//                 },
-//                 {
-//                     "selector": "#job-details"
-//                 }
-//             ]
-//         },
-//         {
-//             "re": "linkedin\\.com\\/jobs\\/collections\\/recommended",
-//             "queries": [
-//                 {
-//                     "selector": "[class*='job-details-jobs-unified-top-card']"
-//                 },
-//                 {
-//                     "selector": "[class*='jobs-description-content']"
-//                 }
-//             ]
-//         },
-//         {
-//             "re": "geeksforgeeks",
-//             "queries": [
-//                 {
-//                     "selector": "nav"
-//                 }
-//             ]
-//         },
-//         {
-//             "re": "notnewspage",
-//             "queries": [
-//                 {
-//                     "selector": ".br-article"
-//                 },
-//                 {
-//                     "selector": ".br-footer"
-//                 }
-//             ]
-//         },
-//         {
-//             "re": "indeed\\.com\\/viewjob",
-//             "queries": [
-//                 {
-//                     "selector": ".jobsearch-InfoHeaderContainer",
-//                 },
-//                 {
-//                     "selector": "#jobDetailsSection",
-//                 },
-//                 {
-//                     "selector": "#jobDescriptionText",
-//                 }
-//             ]
-//         }
-//     ]
-// }
-
 const saveRawTextButton = document.getElementById('button')
 const openNewTabButton = document.getElementById('tab')
-// const genButton = document.getElementById('generate')
 const saveButton = document.getElementById('save')
 const loadButton = document.getElementById('load')
 const clearButton = document.getElementById('clear')
@@ -69,7 +8,6 @@ const deleteAllButton = document.getElementById('deleteAll')
 const urlregexInputElem = document.getElementById('urlregex')
 const messageElem = document.getElementById('message')
 const bookendElem = document.getElementById('bookend')
-
 const cookieName = 'rakeJSON'
 
 
@@ -91,7 +29,6 @@ async function getCurrentTab() {
 }
 
 async function extractText(willThisOpenNewTab) {
-
     const customURL = document.getElementById('urlregex').value
     const qs = []
     document.querySelectorAll('.qs').forEach((node) => {
@@ -245,12 +182,6 @@ openNewTabButton.addEventListener('click', function () {
     const willThisOpenNewTab = true
     extractText(willThisOpenNewTab)
 })
-
-// genButton.addEventListener('click', function () {
-//     console.log('----- generate -----')
-//     let cookieString = `{"sites":[{"re":"geeks","queries":[{"selector":"nav"}]},{"re":"notnewspage","queries":[{"selector":".br-footer"}]},{"re":"indeed","queries":[{"selector":"#jobDetailsSection"}]}]}`
-//     saveStringToCookie(cookieString)
-// })
 
 saveButton.addEventListener('click', function () {
     addInputToCookie()
