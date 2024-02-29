@@ -76,8 +76,6 @@ const bookendElem = document.getElementById('bookend')
 
 const cookieName = 'rakeJSON'
 
-let otherSites = null
-
 
 
 //  MMMMMMMM  MM    MM  MM    MM    MMMM    
@@ -90,6 +88,7 @@ let otherSites = null
 
 
 async function getCurrentTab() {
+    // NOTE: if the user navigates to a different tab or window, this will not work
     let queryOptions = { active: true, lastFocusedWindow: true };
     let [tab] = await chrome.tabs.query(queryOptions);
     return tab;
@@ -165,7 +164,7 @@ async function getArrayFromCookie() {
 }
 
 
-async function findOtherSites() {
+async function addInputToCookie() {
     const re = urlregexInputElem.value
 
     if (!re) {
@@ -193,7 +192,7 @@ async function findOtherSites() {
 
             messageElem.textContent = cookieString
 
-            saveCookie(cookieString)
+            saveStringToCookie(cookieString)
 
         } else {
             messageElem.textContent = 'url regex does not match current url'
@@ -210,7 +209,7 @@ async function findOtherSites() {
 
 
 
-async function saveCookie(cookieString) {
+async function saveStringToCookie(cookieString) {
     const name = cookieName
     if (cookieString) {
         let date = new Date()
@@ -267,13 +266,12 @@ window.addEventListener('load', function () {
 genButton.addEventListener('click', function () {
     console.log('----- generate -----')
     let cookieString = `{"sites":[{"re":"geeks","queries":[{"selector":"nav"}]},{"re":"notnewspage","queries":[{"selector":".br-footer"}]},{"re":"indeed","queries":[{"selector":"#jobDetailsSection"}]}]}`
-    saveCookie(cookieString)
+    saveStringToCookie(cookieString)
 })
 
 savButton.addEventListener('click', function () {
     console.log('----- fake save -----')
-    findOtherSites()
-    // console.log(arr)
+    addInputToCookie()
 })
 
 lodButton.addEventListener('click', function () {
@@ -288,7 +286,7 @@ delaButton.addEventListener('click', function () {
 
 saveButton.addEventListener('click', function () {
     console.log('----- save button clicked -----')
-    // saveCookie(inputToJSONstring())
+    // saveStringToCookie(inputToJSONstring())
 })
 
 loadButton.addEventListener('click', function () {
