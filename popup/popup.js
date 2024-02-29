@@ -95,24 +95,7 @@ async function getCurrentTab() {
     return tab;
 }
 
-function makeDuplicable(elem) {
-    // currently not in use. This makes .qs element to create another when Enter is pressed
-    function duplicate(event) {
-        if (event.key === 'Enter') {
-            console.log(document.querySelectorAll('.qs').length)
-            if (document.querySelectorAll('.qs').length < 5) {
-                let elem = document.createElement('input')
-                elem.className = 'qs common'
-                elem.placeholder = 'custom selector'
-                makeDuplicable(elem)
-                document.body.insertBefore(elem, bookendElem)
-                this.removeEventListener('keydown', duplicate)
-                elem.focus()
-            }
-        }
-    }
-    elem.addEventListener('keydown', duplicate)
-}
+
 
 async function handleClick(willThisOpenNewTab) {
     let currentTab = null
@@ -333,8 +316,7 @@ openNewTabButton.addEventListener('click', function () {
     handleClick(willThisOpenNewTab)
 })
 
-// makeDuplicable(qs[0])
-// I disabled this in favor of just having five query selector input elements always.
+
 
 
 
