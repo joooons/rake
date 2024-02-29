@@ -276,6 +276,8 @@ function runScriptOnTab(selectors, openNewTab) {
             supportedSiteFound = true
             let textArray = []
             const space = '\n\n----------------------\n\n'
+
+
             site.queries.forEach((query) => {
                 const elems = document.querySelectorAll(query.selector)
                 elems.forEach((elem) => {
@@ -292,7 +294,7 @@ function runScriptOnTab(selectors, openNewTab) {
                     }
                 })
             })
-            data = (openNewTab) ? data + textArray.join('') : data + textArray.join(space) + space
+            data = (openNewTab) ? textArray.join('') : textArray.join(space)
         }
     })
 
@@ -303,6 +305,8 @@ function runScriptOnTab(selectors, openNewTab) {
             const bottom = '</body></html>'
             const blob = new Blob([top + title + data + bottom], { type: 'text/html' })
             window.open(URL.createObjectURL(blob), '_blank')
+        } else {
+            document.getElementById(ribbonID).textContent = 'Nothing to extract'
         }
         if (!supportedSiteFound) {
             document.getElementById(ribbonID).textContent = 'RAKE not supported'
@@ -311,6 +315,8 @@ function runScriptOnTab(selectors, openNewTab) {
         if (data) {
             saveRaked(data)
             document.getElementById(ribbonID).textContent = 'Text downloaded in raked.txt'
+        } else {
+            document.getElementById(ribbonID).textContent = 'Nothing to extract'
         }
         if (!supportedSiteFound) {
             document.getElementById(ribbonID).textContent = 'RAKE not supported'
