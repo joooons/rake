@@ -221,6 +221,24 @@ async function saveStringToCookie(cookieString) {
     }
 }
 
+async function loadInputFromCookie() {
+    let currentTab = await getCurrentTab();
+    let sites = await getArrayFromCookie()
+    const site = sites.filter((site) => {
+        return (currentTab.url.match(new RegExp(site.re, "i"))) ? true : false
+    })
+    if (site.length > 0) {
+        urlregexInputElem.value = site[0].re
+        document.querySelectorAll('.qs').forEach((elem) => { elem.value = '' })
+        site[0].queries.forEach((obj, index) => {
+            document.querySelectorAll('.qs')[index].value = obj.selector
+        })
+        messageElem.textContent = 'selectors loaded from cookie'
+    } else {
+        messageElem.textContent = 'cookie contains no selectors for this url'
+    }
+}
+
 function loadCookie() {
     const name = cookieName
     const jsonString = document.cookie
@@ -276,6 +294,7 @@ savButton.addEventListener('click', function () {
 
 lodButton.addEventListener('click', function () {
     console.log('----- fake lod -----')
+    loadInputFromCookie()
 })
 
 delaButton.addEventListener('click', function () {
