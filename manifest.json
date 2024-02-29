@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Rake",
     "version": "1.01",
-    "description": "Chrome extension for scraping text from open tab according to user-defined query selectors. The extracted text can either be saved in a text file or displayed in a new tab.",
+    "description": "extracts text from open tab based on user-defined query selectors and saves to text or open in new tab",
     "author": "joon chang",
     "action": {
         "default_popup": "popup/popup.html",
