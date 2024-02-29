@@ -133,24 +133,8 @@ async function handleClick(willThisOpenNewTab) {
 
 
 
-const inputToJSONstring = () => {
-    const re = urlregexInputElem.value.replaceAll(".", "\\.").replaceAll("/", "\\/")
-    const qs = [...document.querySelectorAll('.qs')].filter((elem) => { return elem.value.length > 0 }).map((elem) => { return { "selector": elem.value } })
-    const site = {
-        "re": re,
-        "queries": qs
-    }
-    return (re) ? JSON.stringify(site) : ''
-}
 
-const useJSONstringToFillInputFields = (jsonString) => {
-    const site = JSON.parse(jsonString)
-    urlregexInputElem.value = site.re
-    document.querySelectorAll('.qs').forEach((elem) => { elem.value = '' })
-    site.queries.forEach((obj, index) => {
-        document.querySelectorAll('.qs')[index].value = obj.selector
-    })
-}
+
 
 
 
@@ -252,17 +236,7 @@ async function deleteThisSiteFromCookie() {
 }
 
 
-function loadCookie() {
-    const name = cookieName
-    const jsonString = document.cookie
-    if (jsonString) {
-        useJSONstringToFillInputFields(jsonString.substring(name.length + 1))
-        messageElem.textContent = 'url regex and selectors loaded from cookie'
-        messageElem.textContent = jsonString
-    } else {
-        messageElem.textContent = 'no cookie to load'
-    }
-}
+
 
 
 
@@ -292,7 +266,7 @@ function deleteCookie() {
 
 window.addEventListener('load', function () {
     console.log('something')
-    // loadCookie()
+    loadInputFromCookie()
 })
 
 
