@@ -47,6 +47,8 @@ Chrome extension for scraping text from currently open tab according to user-def
 
 # Upcoming features in v1.02
 
+- Clicking on `COOKIE CONTROLS` shows list of url regex strings stored in cookie in the popup dev console.
+
 - New tab removes all svg tags.
 
 # Notes
