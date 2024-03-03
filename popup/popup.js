@@ -284,10 +284,21 @@ function runScriptOnTab(selectors, openNewTab) {
 
     if (openNewTab) {
         if (data) {
-            const top = '<!DOCTYPE html><html><head><meta charset="UTF-8">'
-            const title = '<title>RAKED PAGE</title></head><body>'
-            const bottom = '</body></html>'
-            const blob = new Blob([top + title + data + bottom], { type: 'text/html' })
+            const style = '<script>svg { display: none; }</script>'
+            let htmlContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    ${style}
+                    <meta charset="UTF-8">
+                    <title>RAKED PAGE</title>
+                </head>
+                <body>
+                    ${data}
+                </body>
+                </html>
+            `.replace(/<svg[^>]*>[\s\S]*?<\/svg>/gi, '')
+            const blob = new Blob([htmlContent], { type: 'text/html' })
             window.open(URL.createObjectURL(blob), '_blank')
         } else {
             document.getElementById(ribbonID).textContent = 'Nothing to extract'

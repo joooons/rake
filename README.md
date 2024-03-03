@@ -45,6 +45,10 @@ Chrome extension for scraping text from currently open tab according to user-def
   - Click `delete` to remove the selector data for only the current url.
   - Click `del all` to delete `rakeJSON`.
 
+# Upcoming features in v1.02
+
+- New tab removes all svg tags.
+
 # Notes
 
 - The url regex string is matched against the url, but it does not work with regular expressions yet.
