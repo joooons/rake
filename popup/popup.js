@@ -1,6 +1,7 @@
 const saveRawTextButton = document.getElementById('button')
 const openNewTabButton = document.getElementById('tab')
 const cookieTitle = document.getElementById('cookie-title')
+const showButton = document.getElementById('show')
 const saveButton = document.getElementById('save')
 const loadButton = document.getElementById('load')
 const clearButton = document.getElementById('clear')
@@ -155,10 +156,10 @@ function clearInputFields() {
     messageElem.textContent = 'input fields cleared'
 }
 
-function consoleLogCookieObj() {
-    console.log('----- list of url regex currently stored in cookie -----')
+function showCookieURLs() {
     const cookie = JSON.parse(document.cookie.substring(COOKIE_NAME.length + 1))
-    console.table(cookie.sites.map((site) => { return { "url-regex": site.re } }))
+    const text = [...cookie.sites.map((site) => { return site.re })].join('<br>')
+    messageElem.innerHTML = text
 }
 
 
@@ -184,7 +185,7 @@ openNewTabButton.addEventListener('click', function () {
     extractText(willThisOpenNewTab)
 })
 
-cookieTitle.addEventListener('click', consoleLogCookieObj)
+showButton.addEventListener('click', showCookieURLs)
 
 saveButton.addEventListener('click', addInputToCookie)
 
