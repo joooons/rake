@@ -213,6 +213,12 @@ function runScriptOnTab(selectors, openNewTab) {
     const ribbonID = 'rake-ribbon-gibberish-souplantatious'
     let supportedSiteFound = false
     let data = ''
+    let date = new Date()
+
+    // dateText and title will be used to the tab title...
+    // and for file name when the tab content is saved in a file
+    const dateText = [date.getFullYear(), (date.getMonth() + 1).toString().padStart(2, '0'), date.getDate().toString().padStart(2, '0')].join('-')
+    let title = ''
 
     const saveRaked = (text) => {
         const fileName = "raked.txt"
@@ -269,6 +275,9 @@ function runScriptOnTab(selectors, openNewTab) {
                     if (openNewTab) {
                         if (elem.outerHTML) {
                             textArray.push(elem.outerHTML)
+                            if (!title) {
+                                title = elem.innerText
+                            }
                         }
                     } else {
                         if (elem.innerText) {
@@ -292,7 +301,7 @@ function runScriptOnTab(selectors, openNewTab) {
                 <head>
                     ${style}
                     <meta charset="UTF-8">
-                    <title>RAKED PAGE</title>
+                    <title>${dateText} ${title}</title>
                 </head>
                 <body>
                     ${data}
