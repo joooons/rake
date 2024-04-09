@@ -220,8 +220,8 @@ function runScriptOnTab(selectors, openNewTab) {
     const dateText = [date.getFullYear(), (date.getMonth() + 1).toString().padStart(2, '0'), date.getDate().toString().padStart(2, '0')].join('-')
     let title = ''
 
-    const saveRaked = (text) => {
-        const fileName = "raked.txt"
+    const saveRaked = (text, title, dateText) => {
+        const fileName = `${dateText} ${title}.txt`
         const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
@@ -282,6 +282,9 @@ function runScriptOnTab(selectors, openNewTab) {
                     } else {
                         if (elem.innerText) {
                             textArray.push(elem.innerText)
+                            if (!title) {
+                                title = elem.innerText
+                            }
                         } else {
                             textArray.push('<-- innerText not found for this query selector: ' + query.selector + ' -->')
                         }
@@ -318,8 +321,8 @@ function runScriptOnTab(selectors, openNewTab) {
         }
     } else {
         if (data) {
-            saveRaked(data)
-            document.getElementById(ribbonID).textContent = 'Text downloaded in raked.txt'
+            saveRaked(data, title, dateText)
+            document.getElementById(ribbonID).textContent = 'Text downloaded'
         } else {
             document.getElementById(ribbonID).textContent = 'Nothing to extract'
         }
